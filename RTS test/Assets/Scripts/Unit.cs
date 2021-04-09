@@ -8,6 +8,7 @@ public class Unit : MonoBehaviour
     public float starvationTimerMax, resourceTimerMax;
     private float starvationTimer, resourceTimer;
     public bool gathering, walking;
+    public string unitName;
 
     GameObject resourceTarget;
     NavMeshAgent agent;

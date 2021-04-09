@@ -11,4 +11,17 @@ public class Inventroy : MonoBehaviour
     {
         wood += amount;
     }
+
+    public int GetWood()
+    {
+        return wood;
+    }
+    public int GetStone()
+    {
+        return stone;
+    }
+    public int GetMetal()
+    {
+        return metal;
+    }
 }
