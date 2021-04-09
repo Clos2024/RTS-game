@@ -5,8 +5,8 @@ public class Unit : MonoBehaviour
 {
     public float hunger,attack,armor,health;
 
-    public float starvationTimerMax, resourceTimerMax;
-    private float starvationTimer, resourceTimer;
+    public float starvationTimerMax, resourceTimerMax, metabolismMax;
+    private float starvationTimer, resourceTimer, metabolismTimer;
     public bool gathering, walking;
     public string unitName;
 
@@ -24,6 +24,7 @@ public class Unit : MonoBehaviour
         armor = 0;
         starvationTimer = starvationTimerMax;//This is in seconds
         resourceTimer = resourceTimerMax;//This is in seconds
+        metabolismTimer = metabolismMax;//This is in seconds
     }
     // Start is called before the first frame update
     void Start()
@@ -35,16 +36,20 @@ public class Unit : MonoBehaviour
 
     void Update()
     {
+        //Check if we have are pathing to a destination
         if (Mathf.Abs(Vector3.Distance(agent.destination, transform.position)) < 1)
         {
             walking = false;
         }
-        //Deplete health if hunger is 0;
-        if(hunger == 0)
-        {
-            //Begin starving countdown
-            starvationCountdown();
-        }
+
+        //Metabolism
+        metabolismCountdown();
+
+        //hunger at zero so we begin to starve
+        if(hunger == 0) { starvationCountdown(); }
+
+        //health at zero so we died
+        if(health == 0) { Destroy(this.gameObject); }
 
         //We are out our resourceTarget and must begin gathering
         if (resourceTarget != null && Mathf.Abs(Vector3.Distance(resourceTarget.transform.position, transform.position)) < 1.45f)
@@ -66,8 +71,9 @@ public class Unit : MonoBehaviour
     //Make unit take starvation damage and reset starvationTimer
     void starvation()
     {
-        health--;
-        starvationTimer = starvationTimerMax;
+        if(health > 0)
+            health--;
+            starvationTimer = starvationTimerMax;
     }
 
     //Starvation rate of health decay
@@ -81,12 +87,6 @@ public class Unit : MonoBehaviour
         {
             starvation();
         }
-    }
-
-    public void SetResourceTarget(GameObject target)
-    {
-        resourceTarget = target;
-        Debug.Log("Target Locked");
     }
 
     void gatherResource()
@@ -107,5 +107,28 @@ public class Unit : MonoBehaviour
         {
             gatherResource();
         }
+    }
+
+    void metabolism()
+    {
+        if(hunger > 0)
+            hunger--;
+            metabolismTimer = metabolismMax;
+    }
+    void metabolismCountdown()
+    {
+        if (metabolismTimer > 0)
+        {
+            metabolismTimer -= 1 * Time.deltaTime;
+        }
+        else
+        {
+            metabolism();
+        }
+    }
+    public void SetResourceTarget(GameObject target)
+    {
+        resourceTarget = target;
+        Debug.Log("Target Locked");
     }
 }
