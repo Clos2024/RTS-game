@@ -16,11 +16,13 @@ public class UIHandler : MonoBehaviour
         woodText.text = inventory.GetWood().ToString();
         stoneText.text = inventory.GetStone().ToString();
         metalText.text = inventory.GetMetal().ToString();
+
         if (UnitSelections.Instance.unitsSelected.Count == 1)
         {
             string name = UnitSelections.Instance.unitsSelected[0].GetComponent<Unit>().unitName;
             string hunger = UnitSelections.Instance.unitsSelected[0].GetComponent<Unit>().hunger.ToString();
-            soldierName.text = name + " " + hunger + "%";
+            string health = UnitSelections.Instance.unitsSelected[0].GetComponent<Unit>().health.ToString();
+            soldierName.text = string.Format("Lt.{0} | HP : {1} | Hunger : {2}%",name,health,hunger);
         }
         else if(UnitSelections.Instance.unitsSelected.Count > 1)
         {
