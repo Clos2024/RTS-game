@@ -55,7 +55,7 @@ public class Unit : MonoBehaviour
         if (resourceTarget != null && Mathf.Abs(Vector3.Distance(resourceTarget.transform.position, transform.position)) < 1.45f)
         {
             gathering = true;
-            transform.LookAt(resourceTarget.transform);
+            //transform.LookAt(resourceTarget.transform);
             resourceCountdown();
         }
         else

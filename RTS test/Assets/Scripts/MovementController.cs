@@ -1,10 +1,11 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class MovementController : MonoBehaviour
 {
     private Camera myCam;
-
+    public Vector3[] positions;
 
     // Start is called before the first frame update
     void Awake()
@@ -28,7 +29,7 @@ public class MovementController : MonoBehaviour
                 }
                 else if (hit.transform.gameObject.layer == 8 && hit.transform.tag == "Resource") //We have hit a clickable resource spot
                 {
-                    Vector3 target = hit.transform.position - new Vector3(1, 1, 1);
+                    Vector3 target = hit.transform.position;
                     SendResourceTarget(hit.transform.gameObject);
                     SetDestination(target);
                 }
@@ -39,16 +40,23 @@ public class MovementController : MonoBehaviour
 
     void SetDestination(Vector3 target)
     {
-        foreach (var unit in UnitSelections.Instance.unitsSelected)
+        List<GameObject> units = UnitSelections.Instance.unitsSelected;
+        int unitSize = units.Count;
+
+        foreach (var unit in units)
         {
             unit.GetComponent<Unit>().walking = true;
             NavMeshAgent unitAgent = unit.GetComponent<NavMeshAgent>();
             unitAgent.SetDestination(target);
         }
     }
+
     void SendResourceTarget(GameObject target)
     {
-        foreach (var unit in UnitSelections.Instance.unitsSelected)
+        List<GameObject> units = UnitSelections.Instance.unitsSelected;
+        int unitSize = units.Count;
+
+        foreach (var unit in units)
         {
             NavMeshAgent unitAgent = unit.GetComponent<NavMeshAgent>();
             unitAgent.GetComponent<Unit>().SetResourceTarget(target);
