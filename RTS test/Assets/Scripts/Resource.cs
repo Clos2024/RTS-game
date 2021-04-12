@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class woodResource : MonoBehaviour
+public class Resource : MonoBehaviour
 {
     public int WoodResource;
     public string resourceType = "wood";
+    public int unitCapacity = 4;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,5 +25,10 @@ public class woodResource : MonoBehaviour
     {
         WoodResource--;
         return 1;
+    }
+
+    public int getUnitCapacity()
+    {
+        return unitCapacity;
     }
 }

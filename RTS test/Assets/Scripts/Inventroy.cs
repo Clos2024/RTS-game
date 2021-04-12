@@ -24,4 +24,8 @@ public class Inventroy : MonoBehaviour
     {
         return metal;
     }
+    public void SubtractWood(int cost)
+    {
+        wood -= cost;
+    }
 }

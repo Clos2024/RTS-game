@@ -1,25 +1,34 @@
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class Unit : MonoBehaviour
 {
     public float hunger,attack,armor,health;
 
     public float starvationTimerMax, resourceTimerMax, metabolismMax;
-    private float starvationTimer, resourceTimer, metabolismTimer;
+    private float starvationTimer, resourceTimer, metabolismTimer, healthMax, hungerMax;
     public bool gathering, walking;
     public string unitName;
 
     GameObject resourceTarget;
     NavMeshAgent agent;
+    public Slider healthSlider,hungerSlider;
+    healthBar hpBar;
+    healthBar hungerBar;
 
     Inventroy playerInventory;
 
     private void Awake()
     {
+        hpBar = healthSlider.GetComponent<healthBar>();
+        hungerBar = hungerSlider.GetComponent<healthBar>();
+
         playerInventory = GameObject.Find("Inventory").GetComponent<Inventroy>();
-        health = 100;
-        hunger = 100;
+        healthMax = 100;
+        hungerMax = 100;
+        health = healthMax;
+        hunger = hungerMax;
         attack = 5;
         armor = 0;
         starvationTimer = starvationTimerMax;//This is in seconds
@@ -36,11 +45,18 @@ public class Unit : MonoBehaviour
 
     void Update()
     {
+        hpBar.SetMaxProgress(healthMax);
+        hpBar.SetProgress(health);
+
+        hungerBar.SetMaxProgress(hungerMax);
+        hungerBar.SetProgress(hunger);
         //Check if we have are pathing to a destination
         if (Mathf.Abs(Vector3.Distance(agent.destination, transform.position)) < 1)
         {
             walking = false;
         }
+        else
+            walking = true;
 
         //Metabolism
         metabolismCountdown();
@@ -52,10 +68,9 @@ public class Unit : MonoBehaviour
         if(health == 0) { Destroy(this.gameObject); }
 
         //We are out our resourceTarget and must begin gathering
-        if (resourceTarget != null && Mathf.Abs(Vector3.Distance(resourceTarget.transform.position, transform.position)) < 1.45f)
+        if (resourceTarget != null && Mathf.Abs(Vector3.Distance(resourceTarget.transform.position, transform.position)) <= 1.6f)
         {
             gathering = true;
-            //transform.LookAt(resourceTarget.transform);
             resourceCountdown();
         }
         else
@@ -91,10 +106,11 @@ public class Unit : MonoBehaviour
 
     void gatherResource()
     {
-        if(resourceTarget.GetComponent<woodResource>().resourceType == "wood" && resourceTarget.GetComponent<woodResource>().WoodResource > 0)
+        if(resourceTarget.GetComponent<Resource>().resourceType == "wood" && resourceTarget.GetComponent<Resource>().WoodResource > 0)
         {
-            playerInventory.AddWood(resourceTarget.GetComponent<woodResource>().ExtractResource());
+            playerInventory.AddWood(resourceTarget.GetComponent<Resource>().ExtractResource());
             resourceTimer = resourceTimerMax;
+            hunger -= 5;
         }
     }
     void resourceCountdown()
@@ -111,9 +127,11 @@ public class Unit : MonoBehaviour
 
     void metabolism()
     {
-        if(hunger > 0)
+        if (hunger > 0)
+        {
             hunger--;
             metabolismTimer = metabolismMax;
+        }
     }
     void metabolismCountdown()
     {

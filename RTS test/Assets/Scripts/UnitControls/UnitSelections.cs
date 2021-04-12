@@ -6,6 +6,8 @@ public class UnitSelections : MonoBehaviour
     public List<GameObject> unitList = new List<GameObject>();
     public List<GameObject> unitsSelected = new List<GameObject>();
 
+    private GameObject UIInfoCanvas;
+
     private static UnitSelections _instance;
     public static UnitSelections Instance { get { return _instance; } }
 
@@ -26,7 +28,7 @@ public class UnitSelections : MonoBehaviour
         DeselectAll();
         unitsSelected.Add(unitToAdd);
         unitToAdd.transform.GetChild(0).gameObject.SetActive(true);
-        //unitToAdd.GetComponent<Movement>().enabled = true;
+        unitToAdd.transform.Find("UnitInfoCanvas").gameObject.SetActive(true);
     }
 
     public void ShiftClickSelect(GameObject unitToAdd)
@@ -35,12 +37,12 @@ public class UnitSelections : MonoBehaviour
         {
             unitsSelected.Add(unitToAdd);
             unitToAdd.transform.GetChild(0).gameObject.SetActive(true);
-            //unitToAdd.GetComponent<Movement>().enabled = true;
+            unitToAdd.transform.Find("UnitInfoCanvas").gameObject.SetActive(true);
         }
         else
         {
             unitToAdd.transform.GetChild(0).gameObject.SetActive(false);
-            //unitToAdd.GetComponent<Movement>().enabled = false;
+            unitToAdd.transform.Find("UnitInfoCanvas").gameObject.SetActive(false);
             unitsSelected.Remove(unitToAdd);
         }
     }
@@ -51,7 +53,7 @@ public class UnitSelections : MonoBehaviour
         {
             unitsSelected.Add(unitToAdd);
             unitToAdd.transform.GetChild(0).gameObject.SetActive(true);
-           //unitToAdd.GetComponent<Movement>().enabled = true;
+            unitToAdd.transform.Find("UnitInfoCanvas").gameObject.SetActive(true);
         }
     }
 
@@ -59,7 +61,7 @@ public class UnitSelections : MonoBehaviour
     {
         foreach (var unit in unitsSelected)
         {
-            //unit.GetComponent<Movement>().enabled = false;
+            unit.transform.Find("UnitInfoCanvas").gameObject.SetActive(false);
             unit.transform.GetChild(0).gameObject.SetActive(false);
         }
         unitsSelected.Clear();
@@ -69,5 +71,6 @@ public class UnitSelections : MonoBehaviour
     {
         unitsSelected.Remove(unitToDeselect);
         unitToDeselect.transform.GetChild(0).gameObject.SetActive(false);
+        unitToDeselect.transform.Find("UnitInfoCanvas").gameObject.SetActive(false);
     }
 }
