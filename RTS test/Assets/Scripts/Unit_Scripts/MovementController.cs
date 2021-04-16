@@ -6,7 +6,7 @@ public class MovementController : MonoBehaviour
 {
     private Camera myCam;
     public List<Vector3> offsets;
-
+    GameObject objClicked,prev;
     // Start is called before the first frame update
     void Awake()
     {
@@ -36,6 +36,7 @@ public class MovementController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(prev);
         RaycastHit hit;
         Ray ray = myCam.ScreenPointToRay(Input.mousePosition);
 
@@ -43,32 +44,37 @@ public class MovementController : MonoBehaviour
         {
             if (Physics.Raycast(ray, out hit, Mathf.Infinity))
             {
+                //Get Previous click
+                if (prev == null)
+                {
+                    prev = hit.transform.gameObject;
+                    objClicked = hit.transform.gameObject;
+                }
+                prev = objClicked;
+                objClicked = hit.transform.gameObject;
+
                 if (hit.transform.gameObject.layer == 7) //We have hit the ground
                 {
-                    MoveTo(hit.point);
+                    MoveTo(hit.point,hit.transform.gameObject);
                 }
-                else if (hit.transform.gameObject.layer == 8 && hit.transform.tag == "Resource") //We have hit a clickable resource spot
+                else if (hit.transform.gameObject.layer == 8) //We have hit a clickable resource spot
                 {
-                    //We hit a resource block and now we send the units to it
-                    GameObject hitObj = hit.transform.gameObject;
-                    Vector3 target = hit.transform.position;
-                    SendResourceTarget(hitObj);
-                    MoveToResource(target,hitObj.GetComponent<Resource>().unitCapacity);
+                    if (hit.transform.tag == "Resource")
+                    {
+                        MoveTo(hit.point,hit.transform.gameObject);
+                    }
+                    else if (hit.transform.tag == "Building")
+                    {
+                        MoveTo(hit.point, hit.transform.gameObject);
+                    }
                 }
-                else if (hit.transform.gameObject.layer == 8 && hit.transform.tag == "Building") //We have hit a clickable resource spot
-                {
-                    //We hit a resource block and now we send the units to it
-                    GameObject hitObj = hit.transform.gameObject;
-                    Vector3 target = hit.transform.position;
-                    SendBuildingTarget(hitObj);
-                    MoveToResource(target, hitObj.GetComponent<FarmSite>().unitCapacity);
-                }
+
             }
         }
 
     }
 
-    void MoveTo (Vector3 target)
+    void MoveTo (Vector3 target, GameObject go)
     {
         List<GameObject> units = UnitSelections.Instance.unitsSelected;
         int unitSize = units.Count;
@@ -76,8 +82,14 @@ public class MovementController : MonoBehaviour
         int j = 0;
         int i = 0;
 
+        bool canSend = true;
+
         foreach (var unit in units)
         {
+            //Remove this unit from the location if he is still moving there he will be re-added later.
+            if (prev.GetComponent<unitCapacity>() != null)
+                prev.GetComponent<unitCapacity>().unitsInSite.Remove(unit);
+
             NavMeshAgent agent = unit.GetComponent<NavMeshAgent>();
 
             Vector3 offset = Vector3.zero;
@@ -90,61 +102,26 @@ public class MovementController : MonoBehaviour
                 offset = Vector3.zero;
             }
 
-            agent.SetDestination(target + (offset + new Vector3(i,i,i)));
-            j++;
-        }
-    }
-    void MoveToResource(Vector3 target, int capacity)
-    {
-        List<GameObject> units = UnitSelections.Instance.unitsSelected;
-        int unitSize = units.Count;
-
-        int j = 0;
-        int i = 0;
-
-        for (int z = 0; z < capacity; z++)
-        {
-            if (z >= unitSize)
-                return;
-
-            NavMeshAgent agent = units[z].GetComponent<NavMeshAgent>();
+            if (go != null)
+                canSend = checkCapacity(go,unit);
             
-            Vector3 offset = Vector3.zero;
-            if (j < offsets.Count)
-                offset = offsets[j];
-            else
+            if (canSend)
             {
-                j = 0;
-                i++;
-                offset = Vector3.zero;
+                unit.GetComponent<Unit>().locationType = go;
+                agent.SetDestination(target + (offset + new Vector3(i, i, i)));
+                j++;
             }
-
-            agent.SetDestination(target + (offset + new Vector3(i, i, i)));
-            j++;
         }
     }
 
-    void SendResourceTarget(GameObject target)
+    bool checkCapacity(GameObject location, GameObject unit)
     {
-        List<GameObject> units = UnitSelections.Instance.unitsSelected;
-        int unitSize = units.Count;
-
-        foreach (var unit in units)
+        unitCapacity cap = location.GetComponent<unitCapacity>();
+        if (cap.unitsInSite.Count < cap.unitMaxCapacity || location.tag == "Ground")
         {
-            NavMeshAgent unitAgent = unit.GetComponent<NavMeshAgent>();
-            unitAgent.GetComponent<Unit>().SetResourceTarget(target);
+            cap.unitsInSite.Add(unit);
+            return true;
         }
-    }
-
-    void SendBuildingTarget(GameObject target)
-    {
-        List<GameObject> units = UnitSelections.Instance.unitsSelected;
-        int unitSize = units.Count;
-
-        foreach (var unit in units)
-        {
-            NavMeshAgent unitAgent = unit.GetComponent<NavMeshAgent>();
-            unitAgent.GetComponent<Unit>().SetBuildingTarget(target);
-        }
+        return false;
     }
 }

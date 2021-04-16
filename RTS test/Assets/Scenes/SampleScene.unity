@@ -1933,11 +1933,8 @@ MonoBehaviour:
   starvationTimerMax: 30
   resourceTimerMax: 10
   metabolismMax: 27
-  gathering: 0
-  walking: 0
   unitName: Samson
-  resourceTarget: {fileID: 0}
-  buildingTarget: {fileID: 0}
+  locationType: {fileID: 0}
   agent: {fileID: 0}
   healthSlider: {fileID: 2044121482}
   hungerSlider: {fileID: 1140979472}
@@ -2522,11 +2519,8 @@ MonoBehaviour:
   starvationTimerMax: 30
   resourceTimerMax: 10
   metabolismMax: 27
-  gathering: 0
-  walking: 0
   unitName: Samson
-  resourceTarget: {fileID: 0}
-  buildingTarget: {fileID: 0}
+  locationType: {fileID: 0}
   agent: {fileID: 0}
   healthSlider: {fileID: 1036506854}
   hungerSlider: {fileID: 947242750}
@@ -6962,11 +6956,8 @@ MonoBehaviour:
   starvationTimerMax: 30
   resourceTimerMax: 10
   metabolismMax: 27
-  gathering: 0
-  walking: 0
   unitName: Samson
-  resourceTarget: {fileID: 0}
-  buildingTarget: {fileID: 0}
+  locationType: {fileID: 0}
   agent: {fileID: 0}
   healthSlider: {fileID: 2023588705}
   hungerSlider: {fileID: 1718290806}
@@ -10673,11 +10664,8 @@ MonoBehaviour:
   starvationTimerMax: 30
   resourceTimerMax: 10
   metabolismMax: 27
-  gathering: 0
-  walking: 0
   unitName: Samson
-  resourceTarget: {fileID: 0}
-  buildingTarget: {fileID: 0}
+  locationType: {fileID: 0}
   agent: {fileID: 0}
   healthSlider: {fileID: 367260050}
   hungerSlider: {fileID: 2092513897}
@@ -17302,6 +17290,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 846810845}
+  - component: {fileID: 846810846}
   m_Layer: 8
   m_Name: SeedSpotThree
   m_TagString: Untagged
@@ -17323,6 +17312,20 @@ Transform:
   m_Father: {fileID: 6428868726440854513}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &846810846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 846810844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb9ae1284905e2d46b9e1b1c8573a68c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cropGrowthTimerMax: 10
+  wheat: {fileID: 116184090901838063, guid: d5629959ccac50c4b91429f28adf9372, type: 3}
 --- !u!1 &848465160
 GameObject:
   m_ObjectHideFlags: 0
@@ -17817,11 +17820,8 @@ MonoBehaviour:
   starvationTimerMax: 30
   resourceTimerMax: 10
   metabolismMax: 27
-  gathering: 0
-  walking: 0
   unitName: Samson
-  resourceTarget: {fileID: 0}
-  buildingTarget: {fileID: 0}
+  locationType: {fileID: 0}
   agent: {fileID: 0}
   healthSlider: {fileID: 1190799345}
   hungerSlider: {fileID: 1894938006}
@@ -18806,11 +18806,8 @@ MonoBehaviour:
   starvationTimerMax: 30
   resourceTimerMax: 10
   metabolismMax: 27
-  gathering: 0
-  walking: 0
   unitName: Samson
-  resourceTarget: {fileID: 0}
-  buildingTarget: {fileID: 0}
+  locationType: {fileID: 0}
   agent: {fileID: 0}
   healthSlider: {fileID: 906944266}
   hungerSlider: {fileID: 2012251312}
@@ -19425,6 +19422,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 961877292}
+  - component: {fileID: 961877293}
   m_Layer: 8
   m_Name: SeedSpotTwo
   m_TagString: Untagged
@@ -19446,6 +19444,20 @@ Transform:
   m_Father: {fileID: 6428868726440854513}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &961877293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 961877291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb9ae1284905e2d46b9e1b1c8573a68c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cropGrowthTimerMax: 10
+  wheat: {fileID: 116184090901838063, guid: d5629959ccac50c4b91429f28adf9372, type: 3}
 --- !u!1 &967317544
 GameObject:
   m_ObjectHideFlags: 0
@@ -20299,11 +20311,8 @@ MonoBehaviour:
   starvationTimerMax: 30
   resourceTimerMax: 10
   metabolismMax: 27
-  gathering: 0
-  walking: 0
   unitName: Samson
-  resourceTarget: {fileID: 0}
-  buildingTarget: {fileID: 0}
+  locationType: {fileID: 0}
   agent: {fileID: 0}
   healthSlider: {fileID: 1034110852}
   hungerSlider: {fileID: 144069263}
@@ -21731,6 +21740,36 @@ Transform:
   - {fileID: 829609472}
   m_Father: {fileID: 1423713525}
   m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1081248180
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1081248181}
+  m_Layer: 8
+  m_Name: positionOne
+  m_TagString: Untagged
+  m_Icon: {fileID: -5487077368411116049, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1081248181
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1081248180}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 1.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 93024152355625906}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1090745915
 GameObject:
@@ -27116,11 +27155,8 @@ MonoBehaviour:
   starvationTimerMax: 30
   resourceTimerMax: 10
   metabolismMax: 27
-  gathering: 0
-  walking: 0
   unitName: Samson
-  resourceTarget: {fileID: 0}
-  buildingTarget: {fileID: 0}
+  locationType: {fileID: 0}
   agent: {fileID: 0}
   healthSlider: {fileID: 255060247}
   hungerSlider: {fileID: 264698138}
@@ -28261,6 +28297,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1458819628}
   m_CullTransparentMesh: 1
+--- !u!1 &1460689356
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1460689357}
+  m_Layer: 8
+  m_Name: positionTwo
+  m_TagString: Untagged
+  m_Icon: {fileID: -5487077368411116049, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1460689357
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1460689356}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.5, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 93024152355625906}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1463040836
 GameObject:
   m_ObjectHideFlags: 0
@@ -35146,11 +35212,8 @@ MonoBehaviour:
   starvationTimerMax: 30
   resourceTimerMax: 10
   metabolismMax: 27
-  gathering: 0
-  walking: 0
   unitName: Samson
-  resourceTarget: {fileID: 0}
-  buildingTarget: {fileID: 0}
+  locationType: {fileID: 0}
   agent: {fileID: 0}
   healthSlider: {fileID: 539648767}
   hungerSlider: {fileID: 1528438479}
@@ -35371,6 +35434,36 @@ Transform:
   - {fileID: 71585125}
   m_Father: {fileID: 403522980}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1820498859
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1820498860}
+  m_Layer: 8
+  m_Name: positionFour
+  m_TagString: Untagged
+  m_Icon: {fileID: -5487077368411116049, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1820498860
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1820498859}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.5, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 93024152355625906}
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1822972610
 GameObject:
@@ -36099,11 +36192,8 @@ MonoBehaviour:
   starvationTimerMax: 30
   resourceTimerMax: 10
   metabolismMax: 27
-  gathering: 0
-  walking: 0
   unitName: Samson
-  resourceTarget: {fileID: 0}
-  buildingTarget: {fileID: 0}
+  locationType: {fileID: 0}
   agent: {fileID: 0}
   healthSlider: {fileID: 697452054}
   hungerSlider: {fileID: 565783440}
@@ -38996,9 +39086,11 @@ GameObject:
   - component: {fileID: 2023020051}
   - component: {fileID: 2023020050}
   - component: {fileID: 2023020049}
+  - component: {fileID: 2023020055}
+  - component: {fileID: 2023020054}
   m_Layer: 7
   m_Name: Ground
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -39096,6 +39188,33 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2023020054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2023020048}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50e717f7c7e1ffd489e9b9dbf2a7cdfa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  positions: []
+--- !u!114 &2023020055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2023020048}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bde0c86a00e37ec4ea50ffb8baf201b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitMaxCapacity: 0
+  unitsInSite: []
 --- !u!1 &2023588702
 GameObject:
   m_ObjectHideFlags: 0
@@ -39321,6 +39440,36 @@ Transform:
   - {fileID: 1734676824}
   m_Father: {fileID: 2133658952}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2035431018
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2035431019}
+  m_Layer: 8
+  m_Name: positionThree
+  m_TagString: Untagged
+  m_Icon: {fileID: -5487077368411116049, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2035431019
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2035431018}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -1.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 93024152355625906}
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2042320703
 GameObject:
@@ -40181,11 +40330,8 @@ MonoBehaviour:
   starvationTimerMax: 30
   resourceTimerMax: 10
   metabolismMax: 27
-  gathering: 0
-  walking: 0
   unitName: Samson
-  resourceTarget: {fileID: 0}
-  buildingTarget: {fileID: 0}
+  locationType: {fileID: 0}
   agent: {fileID: 0}
   healthSlider: {fileID: 1100194664}
   hungerSlider: {fileID: 997545309}
@@ -41379,6 +41525,10 @@ Transform:
   - {fileID: 2306723598723450712}
   - {fileID: 6181020526940059093}
   - {fileID: 7810738430961754450}
+  - {fileID: 1081248181}
+  - {fileID: 1460689357}
+  - {fileID: 2035431019}
+  - {fileID: 1820498860}
   m_Father: {fileID: 1704418432}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -41647,11 +41797,8 @@ MonoBehaviour:
   starvationTimerMax: 30
   resourceTimerMax: 10
   metabolismMax: 27
-  gathering: 0
-  walking: 0
   unitName: Samson
-  resourceTarget: {fileID: 0}
-  buildingTarget: {fileID: 0}
+  locationType: {fileID: 0}
   agent: {fileID: 0}
   healthSlider: {fileID: 65512042}
   hungerSlider: {fileID: 834381603}
@@ -43643,7 +43790,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &6428868726440854519
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43656,11 +43803,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64fcf18523e8a1c4a9fdea497d737138, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitCapacity: 3
-  unitsInSite: []
-  positonOne: {fileID: 223378563}
-  positionTwo: {fileID: 1225456189}
-  positionThree: {fileID: 1171491634}
   seedOne: {fileID: 1589055055}
   seedTwo: {fileID: 961877291}
   seedThree: {fileID: 846810844}
@@ -46086,6 +46228,7 @@ GameObject:
   - component: {fileID: 6695997462551747654}
   - component: {fileID: 6695997462551747653}
   - component: {fileID: 6695997462551747655}
+  - component: {fileID: 6695997462551747656}
   - component: {fileID: 6695997462551747652}
   m_Layer: 8
   m_Name: PalmTreeProto
@@ -46094,19 +46237,23 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
   m_IsActive: 1
---- !u!65 &6695997462551747652
-BoxCollider:
+--- !u!114 &6695997462551747652
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6695997462551747651}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 4, y: 1, z: 4}
-  m_Center: {x: 0, y: 0.5, z: 0}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50e717f7c7e1ffd489e9b9dbf2a7cdfa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  positions:
+  - {fileID: 1081248181}
+  - {fileID: 1460689357}
+  - {fileID: 2035431019}
+  - {fileID: 1820498860}
 --- !u!208 &6695997462551747653
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -46153,7 +46300,19 @@ MonoBehaviour:
   StoneResource: 0
   MetalResource: 0
   resourceType: wood
-  unitCapacity: 4
+--- !u!114 &6695997462551747656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6695997462551747651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bde0c86a00e37ec4ea50ffb8baf201b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitMaxCapacity: 4
   unitsInSite: []
 --- !u!4 &6833846119614887946
 Transform:

@@ -4,9 +4,10 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - wood
   - Resource
   - Building
+  - Full
+  - Ground
   layers:
   - Default
   - TransparentFX

@@ -17,7 +17,7 @@ public class unitAnimHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        unitAnimator.SetBool("walking", unitInfo.walking);
-        unitAnimator.SetBool("gathering", unitInfo.gathering);
+        //unitAnimator.SetBool("walking", unitInfo.walking);
+        //unitAnimator.SetBool("gathering", unitInfo.gathering);
     }
 }

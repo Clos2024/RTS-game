@@ -8,11 +8,10 @@ public class Unit : MonoBehaviour
 
     public float starvationTimerMax, resourceTimerMax, metabolismMax;
     private float starvationTimer, resourceTimer, metabolismTimer, healthMax, hungerMax;
-    public bool gathering, walking;
     public string unitName;
 
-    public GameObject resourceTarget;
-    public GameObject buildingTarget;
+    public GameObject locationType;
+
     public NavMeshAgent agent;
     public Slider healthSlider,hungerSlider;
     healthBar hpBar;
@@ -46,18 +45,12 @@ public class Unit : MonoBehaviour
 
     void Update()
     {
+        //UI Slider Updates
         hpBar.SetMaxProgress(healthMax);
         hpBar.SetProgress(health);
 
         hungerBar.SetMaxProgress(hungerMax);
         hungerBar.SetProgress(hunger);
-        //Check if we have are pathing to a destination
-        if (Mathf.Abs(Vector3.Distance(agent.destination, transform.position)) < 1)
-        {
-            walking = false;
-        }
-        else
-            walking = true;
 
         //Metabolism
         metabolismCountdown();
@@ -68,14 +61,13 @@ public class Unit : MonoBehaviour
         //health at zero so we died
         if(health == 0) { Destroy(this.gameObject); }
 
-        //We are out our resourceTarget and must begin gathering
-        if (resourceTarget != null && Mathf.Abs(Vector3.Distance(resourceTarget.transform.position, transform.position)) <= 1.6f)
+        //Determine what location we are at
+        if(locationType != null)
         {
-            gathering = true;
-            resourceCountdown();
+            //if we are at a resource node begin to gatherResouces
+            if (locationType.GetComponent<Resource>() != null) { resourceCountdown(); }
+            else if(locationType.GetComponent<FarmSite>() != null) { };
         }
-        else
-            gathering = false;
     }
 
     void OnDestroy()
@@ -107,11 +99,16 @@ public class Unit : MonoBehaviour
 
     void gatherResource()
     {
-        if(resourceTarget.GetComponent<Resource>().resourceType == "wood" && resourceTarget.GetComponent<Resource>().WoodResource > 0)
+        var ResourceNode = locationType.GetComponent<Resource>();
+
+        if (ResourceNode.resourceType == "wood")
         {
-            playerInventory.AddWood(resourceTarget.GetComponent<Resource>().ExtractResource());
-            resourceTimer = resourceTimerMax;
-            hunger -= 5;
+            if (ResourceNode.WoodResource > 0)
+            {
+                playerInventory.AddWood(locationType.GetComponent<Resource>().ExtractResource());
+                resourceTimer = resourceTimerMax;
+                hunger -= 5;
+            }
         }
     }
     void resourceCountdown()
@@ -125,7 +122,6 @@ public class Unit : MonoBehaviour
             gatherResource();
         }
     }
-
     void metabolism()
     {
         if (hunger > 0)
@@ -144,13 +140,5 @@ public class Unit : MonoBehaviour
         {
             metabolism();
         }
-    }
-    public void SetResourceTarget(GameObject target)
-    {
-        resourceTarget = target;
-    }
-    public void SetBuildingTarget(GameObject target)
-    {
-        buildingTarget = target;
     }
 }
