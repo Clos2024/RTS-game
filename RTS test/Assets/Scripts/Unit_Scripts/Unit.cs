@@ -11,8 +11,9 @@ public class Unit : MonoBehaviour
     public bool gathering, walking;
     public string unitName;
 
-    GameObject resourceTarget;
-    NavMeshAgent agent;
+    public GameObject resourceTarget;
+    public GameObject buildingTarget;
+    public NavMeshAgent agent;
     public Slider healthSlider,hungerSlider;
     healthBar hpBar;
     healthBar hungerBar;
@@ -147,6 +148,9 @@ public class Unit : MonoBehaviour
     public void SetResourceTarget(GameObject target)
     {
         resourceTarget = target;
-        Debug.Log("Target Locked");
+    }
+    public void SetBuildingTarget(GameObject target)
+    {
+        buildingTarget = target;
     }
 }

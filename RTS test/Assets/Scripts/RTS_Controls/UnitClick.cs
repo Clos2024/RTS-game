@@ -12,8 +12,10 @@ public class UnitClick : MonoBehaviour
         myCam = Camera.main;
     }
 
+
     void Update()
     {
+
         if (Input.GetMouseButtonDown(0))
         {
             RaycastHit hit;

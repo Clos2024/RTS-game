@@ -6,6 +6,7 @@ public class MovementController : MonoBehaviour
 {
     private Camera myCam;
     public List<Vector3> offsets;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -53,6 +54,14 @@ public class MovementController : MonoBehaviour
                     Vector3 target = hit.transform.position;
                     SendResourceTarget(hitObj);
                     MoveToResource(target,hitObj.GetComponent<Resource>().unitCapacity);
+                }
+                else if (hit.transform.gameObject.layer == 8 && hit.transform.tag == "Building") //We have hit a clickable resource spot
+                {
+                    //We hit a resource block and now we send the units to it
+                    GameObject hitObj = hit.transform.gameObject;
+                    Vector3 target = hit.transform.position;
+                    SendBuildingTarget(hitObj);
+                    MoveToResource(target, hitObj.GetComponent<FarmSite>().unitCapacity);
                 }
             }
         }
@@ -124,6 +133,18 @@ public class MovementController : MonoBehaviour
         {
             NavMeshAgent unitAgent = unit.GetComponent<NavMeshAgent>();
             unitAgent.GetComponent<Unit>().SetResourceTarget(target);
+        }
+    }
+
+    void SendBuildingTarget(GameObject target)
+    {
+        List<GameObject> units = UnitSelections.Instance.unitsSelected;
+        int unitSize = units.Count;
+
+        foreach (var unit in units)
+        {
+            NavMeshAgent unitAgent = unit.GetComponent<NavMeshAgent>();
+            unitAgent.GetComponent<Unit>().SetBuildingTarget(target);
         }
     }
 }

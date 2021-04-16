@@ -5,7 +5,6 @@ using UnityEngine;
 public class blueprint : MonoBehaviour
 {
     RaycastHit hit;
-    Vector3 movePoint;
     public GameObject prefab;
     Inventroy playerInv;
     public int cost;
@@ -19,7 +18,7 @@ public class blueprint : MonoBehaviour
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        if(Physics.Raycast(ray, out hit, Mathf.Infinity, (1<<8)))
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, (1 << 8)))
         {
             transform.position = hit.point;
         }
@@ -32,12 +31,12 @@ public class blueprint : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, Mathf.Infinity))
         {
-            transform.position = hit.point + new Vector3 (0,1,0);
+            transform.position = hit.point;
         }
 
         if (Input.GetMouseButton(0))
         {
-            if (playerInv.GetWood() >= 2)
+            if (playerInv.GetWood() >= cost)
             {
                 playerInv.SubtractWood(cost);
                 Instantiate(prefab, transform.position, transform.rotation);

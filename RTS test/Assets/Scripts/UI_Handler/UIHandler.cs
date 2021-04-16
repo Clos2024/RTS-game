@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class UIHandler : MonoBehaviour
 {
     Inventroy inventory;
-    public Text woodText, stoneText, metalText,soldierName;
+    public Text woodText, stoneText, metalText, soldierName;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,13 +22,15 @@ public class UIHandler : MonoBehaviour
             string name = UnitSelections.Instance.unitsSelected[0].GetComponent<Unit>().unitName;
             string hunger = UnitSelections.Instance.unitsSelected[0].GetComponent<Unit>().hunger.ToString();
             string health = UnitSelections.Instance.unitsSelected[0].GetComponent<Unit>().health.ToString();
-            soldierName.text = string.Format("Lt.{0} | HP : {1} | Hunger : {2}%",name,health,hunger);
+            soldierName.text = string.Format("Lt.{0} | HP : {1} | Hunger : {2}%", name, health, hunger);
         }
-        else if(UnitSelections.Instance.unitsSelected.Count > 1)
+        else if (UnitSelections.Instance.unitsSelected.Count > 1)
         {
             soldierName.text = "Units count : " + UnitSelections.Instance.unitsSelected.Count.ToString();
         }
         else
+        {
             soldierName.text = "";
+        }
     }
 }
