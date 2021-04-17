@@ -36,7 +36,6 @@ public class MovementController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(prev);
         RaycastHit hit;
         Ray ray = myCam.ScreenPointToRay(Input.mousePosition);
 
@@ -120,6 +119,7 @@ public class MovementController : MonoBehaviour
         if (cap.unitsInSite.Count < cap.unitMaxCapacity || location.tag == "Ground")
         {
             cap.unitsInSite.Add(unit);
+
             return true;
         }
         return false;

@@ -141,4 +141,8 @@ public class Unit : MonoBehaviour
             metabolism();
         }
     }
+    public void setDestination(Vector3 targetPositon)
+    {
+        agent.SetDestination(targetPositon);
+    }
 }
