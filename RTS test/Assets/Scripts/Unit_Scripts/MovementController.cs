@@ -6,6 +6,7 @@ public class MovementController : MonoBehaviour
 {
     private Camera myCam;
     public List<Vector3> offsets;
+    public float offsetAmount;
     GameObject objClicked,prev;
     // Start is called before the first frame update
     void Awake()
@@ -13,14 +14,14 @@ public class MovementController : MonoBehaviour
         myCam = Camera.main;
 
         //directions used for offsets later
-        Vector3 north = new Vector3(0, 0, 1.5f);
-        Vector3 west = new Vector3(1.5f, 0, 0);
-        Vector3 south = new Vector3(0, 0, -1.5f);
-        Vector3 east = new Vector3(-1.5f, 0, 0);
-        Vector3 northWest = new Vector3(1.5f, 0, 1.5f);
-        Vector3 northEast = new Vector3(-1.5f, 0, 1.5f);
-        Vector3 southWest = new Vector3(1.5f, 0, -1.5f);
-        Vector3 southEast = new Vector3(-1.5f, 0, -1.5f);
+        Vector3 north = new Vector3(0, 0, offsetAmount);
+        Vector3 west = new Vector3(offsetAmount, 0, 0);
+        Vector3 south = new Vector3(0, 0, -offsetAmount);
+        Vector3 east = new Vector3(-offsetAmount, 0, 0);
+        Vector3 northWest = new Vector3(offsetAmount, 0, offsetAmount);
+        Vector3 northEast = new Vector3(-offsetAmount, 0, offsetAmount);
+        Vector3 southWest = new Vector3(offsetAmount, 0, -offsetAmount);
+        Vector3 southEast = new Vector3(-offsetAmount, 0, -offsetAmount);
         //offsets.Add(Vector3.zero);
         offsets.Add(north);
         offsets.Add(west);
@@ -61,10 +62,12 @@ public class MovementController : MonoBehaviour
                     if (hit.transform.tag == "Resource")
                     {
                         MoveTo(hit.point,hit.transform.gameObject);
+                        UnitSelections.Instance.DeselectAll();
                     }
                     else if (hit.transform.tag == "Building")
                     {
                         MoveTo(hit.point, hit.transform.gameObject);
+                        UnitSelections.Instance.DeselectAll();
                     }
                 }
 
