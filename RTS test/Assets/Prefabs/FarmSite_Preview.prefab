@@ -774,8 +774,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b313abd164d49b14fa503d173df32281, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 6428868727354054937, guid: 2c15c0dfe7ffcfe4f8475fc4c244a10c, type: 3}
-  cost: 10
+  prefab: {fileID: 489660601605382041, guid: 2c15c0dfe7ffcfe4f8475fc4c244a10c, type: 3}
+  woodCost: 10
+  stoneCost: 10
+  metalCost: 0
 --- !u!1 &7289851501322486757
 GameObject:
   m_ObjectHideFlags: 0

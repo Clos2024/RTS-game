@@ -6,20 +6,28 @@ using UnityEngine.AI;
 public class FarmSite : MonoBehaviour
 {
     public GameObject seedOne, seedTwo, seedThree;
+    unitCapacity unitCap;
 
+    private void Awake()
+    {
+        unitCap = transform.GetComponent<unitCapacity>();
+    }
     private void Update()
     {
-        //if(unitsInSite.Count == 1)
-        //{
-        //    seedOne.GetComponent<SeedBehavior>().GrowthTimer();
-        //}
-        //else if(unitsInSite.Count == 2)
-        //{
-        //    seedTwo.GetComponent<SeedBehavior>().GrowthTimer();
-        //}
-        //else if(unitsInSite.Count == 3)
-        //{
-        //    seedThree.GetComponent<SeedBehavior>().GrowthTimer();
-        //}
+        if (unitCap.unitsInSite.Count == 1)
+        {
+            seedOne.GetComponent<SeedBehavior>().GrowthTimer();
+        }
+        else if (unitCap.unitsInSite.Count == 2)
+        {
+            seedOne.GetComponent<SeedBehavior>().GrowthTimer();
+            seedTwo.GetComponent<SeedBehavior>().GrowthTimer();
+        }
+        else if (unitCap.unitsInSite.Count == 3)
+        {
+            seedOne.GetComponent<SeedBehavior>().GrowthTimer();
+            seedTwo.GetComponent<SeedBehavior>().GrowthTimer();
+            seedThree.GetComponent<SeedBehavior>().GrowthTimer();
+        }
     }
 }

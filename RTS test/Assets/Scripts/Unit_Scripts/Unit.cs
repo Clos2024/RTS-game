@@ -110,6 +110,15 @@ public class Unit : MonoBehaviour
                 hunger -= 5;
             }
         }
+        else if(ResourceNode.resourceType == "stone")
+        {
+            if (ResourceNode.StoneResource > 0)
+            {
+                playerInventory.AddStone(locationType.GetComponent<Resource>().ExtractResource());
+                resourceTimer = resourceTimerMax;
+                hunger -= 5;
+            }
+        }
     }
     void resourceCountdown()
     {

@@ -8,6 +8,7 @@ TagManager:
   - Building
   - Full
   - Ground
+  - Wheat
   layers:
   - Default
   - TransparentFX

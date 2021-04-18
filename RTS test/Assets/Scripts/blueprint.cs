@@ -7,7 +7,9 @@ public class blueprint : MonoBehaviour
     RaycastHit hit;
     public GameObject prefab;
     Inventroy playerInv;
-    public int cost;
+
+    public int woodCost, stoneCost, metalCost;
+
 
     void Awake()
     {
@@ -36,10 +38,12 @@ public class blueprint : MonoBehaviour
 
         if (Input.GetMouseButton(0))
         {
-            if (playerInv.GetWood() >= cost)
+            if(woodCost <= playerInv.GetWood() && stoneCost <= playerInv.GetStone() && metalCost <= playerInv.GetMetal())
             {
-                playerInv.SubtractWood(cost);
-                Instantiate(prefab, transform.position, transform.rotation);
+                var building = Instantiate(prefab,transform.position,transform.rotation);
+                playerInv.SubtractWood(woodCost);
+                playerInv.SubtractStone(stoneCost);
+                playerInv.SubtractMetal(metalCost);
             }
             Destroy(gameObject);
         }
