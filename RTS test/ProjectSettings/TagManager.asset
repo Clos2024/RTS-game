@@ -9,6 +9,7 @@ TagManager:
   - Full
   - Ground
   - Wheat
+  - PickUp
   layers:
   - Default
   - TransparentFX

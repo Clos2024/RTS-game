@@ -6,15 +6,9 @@ public class blueprint : MonoBehaviour
 {
     RaycastHit hit;
     public GameObject prefab;
-    Inventroy playerInv;
 
     public int woodCost, stoneCost, metalCost;
 
-
-    void Awake()
-    {
-        playerInv = GameObject.Find("Inventory").GetComponent<Inventroy>();
-    }
     // Start is called before the first frame update
     void Start()
     {
@@ -38,14 +32,18 @@ public class blueprint : MonoBehaviour
 
         if (Input.GetMouseButton(0))
         {
-            if(woodCost <= playerInv.GetWood() && stoneCost <= playerInv.GetStone() && metalCost <= playerInv.GetMetal())
+            if (woodCost <= Inventory.instance.GetCountOfItem("wood") && stoneCost <= Inventory.instance.GetCountOfItem("stone") && stoneCost <= Inventory.instance.GetCountOfItem("metal"))
             {
-                var building = Instantiate(prefab,transform.position,transform.rotation);
-                playerInv.SubtractWood(woodCost);
-                playerInv.SubtractStone(stoneCost);
-                playerInv.SubtractMetal(metalCost);
+                placePrefab();
             }
             Destroy(gameObject);
         }
+    }
+    void placePrefab()
+    {
+        Inventory.instance.consumeItem("wood", woodCost);
+        Inventory.instance.consumeItem("stone", stoneCost);
+        Inventory.instance.consumeItem("metal", metalCost);
+        Instantiate(prefab, transform.position, transform.rotation);
     }
 }

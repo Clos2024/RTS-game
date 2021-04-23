@@ -12,12 +12,24 @@ public class unitAnimHandler : MonoBehaviour
     {
         unitAnimator = GetComponent<Animator>();
         unitInfo = GetComponent<Unit>();
+        unitInfo.onUpdateAnimation += setAnimationBool;
     }
 
-    // Update is called once per frame
-    void Update()
+    void setAnimationBool()
     {
-        //unitAnimator.SetBool("walking", unitInfo.walking);
-        //unitAnimator.SetBool("gathering", unitInfo.gathering);
+        var action = unitInfo.performAction;
+        Debug.Log(action);
+        ResetAnimator();
+        if(action != "idle")
+            unitAnimator.SetBool(action, true);
     }
+
+    void ResetAnimator()
+    {
+        unitAnimator.SetBool("walking", false);
+        unitAnimator.SetBool("gathering", false);
+        unitAnimator.SetBool("farming", false);
+        unitAnimator.SetBool("resting", false);
+    }
+
 }

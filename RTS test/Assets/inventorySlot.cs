@@ -5,19 +5,21 @@ using UnityEngine.UI;
 
 public class inventorySlot : MonoBehaviour
 {
-    public string item;
-    private Image itemIcon;
-    private Text itemCount;
+    public Image imageSlot;
+    public Text textAmount;
+    private Item item;
 
-    void Awake()
+    public void setItem(Item item)
     {
-        itemIcon = transform.GetComponent<Image>();
+            this.item = item;
+            textAmount.text = item.amount.ToString();
+            imageSlot.sprite = item.icon;
     }
-
-    public void addItem(string item, int count)
+    public bool hasItem()
     {
-        item = this.item;
-        itemCount.text = count.ToString();
-        itemIcon = Resources.Load(item) as Image;
+        if (item == null)
+            return false;
+        else
+            return true;
     }
 }

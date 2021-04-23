@@ -6,6 +6,7 @@ public class positionHandler : MonoBehaviour
 {
     public List<GameObject> sitePosition = new List<GameObject>();
     unitCapacity unitCap;
+    public string action;
 
     void Awake()
     {
@@ -40,6 +41,7 @@ public class positionHandler : MonoBehaviour
             AssignPos(other.transform.gameObject);
         }
     }
+
     private void OnTriggerExit(Collider other)
     {
         if (other.GetComponent<Unit>() != null)

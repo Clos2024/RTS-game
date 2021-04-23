@@ -9,6 +9,7 @@ public class Unit : MonoBehaviour
     public float starvationTimerMax, resourceTimerMax, metabolismMax;
     private float starvationTimer, resourceTimer, metabolismTimer, healthMax, hungerMax;
     public string unitName;
+    public string performAction;
 
     public GameObject locationType;
 
@@ -17,14 +18,18 @@ public class Unit : MonoBehaviour
     healthBar hpBar;
     healthBar hungerBar;
 
-    Inventroy playerInventory;
+    Inventory playerInventory;
+
+    public delegate void updateAnimation();
+
+    public updateAnimation onUpdateAnimation;
 
     private void Awake()
     {
         hpBar = healthSlider.GetComponent<healthBar>();
         hungerBar = hungerSlider.GetComponent<healthBar>();
 
-        playerInventory = GameObject.Find("Inventory").GetComponent<Inventroy>();
+        playerInventory = GameObject.Find("Inventory").GetComponent<Inventory>();
         healthMax = 100;
         hungerMax = 100;
         health = healthMax;
@@ -34,6 +39,7 @@ public class Unit : MonoBehaviour
         starvationTimer = starvationTimerMax;//This is in seconds
         resourceTimer = resourceTimerMax;//This is in seconds
         metabolismTimer = metabolismMax;//This is in seconds
+        performAction = "idle";
     }
     // Start is called before the first frame update
     void Start()
@@ -64,9 +70,12 @@ public class Unit : MonoBehaviour
         //Determine what location we are at
         if(locationType != null)
         {
-            //if we are at a resource node begin to gatherResouces
-            if (locationType.GetComponent<Resource>() != null) { resourceCountdown(); }
-            else if(locationType.GetComponent<FarmSite>() != null) { };
+            if (Vector3.Distance(transform.position, locationType.transform.position) < 4)
+            {
+                //if we are at a resource node begin to gatherResouces
+                if (locationType.GetComponent<Resource>() != null) { resourceCountdown(); }
+                else if (locationType.GetComponent<FarmSite>() != null) { };
+            }
         }
     }
 
@@ -81,7 +90,7 @@ public class Unit : MonoBehaviour
     {
         if(health > 0)
             health--;
-            starvationTimer = starvationTimerMax;
+        starvationTimer = starvationTimerMax;
     }
 
     //Starvation rate of health decay
@@ -100,25 +109,8 @@ public class Unit : MonoBehaviour
     void gatherResource()
     {
         var ResourceNode = locationType.GetComponent<Resource>();
-
-        if (ResourceNode.resourceType == "wood")
-        {
-            if (ResourceNode.WoodResource > 0)
-            {
-                playerInventory.AddWood(locationType.GetComponent<Resource>().ExtractResource());
-                resourceTimer = resourceTimerMax;
-                hunger -= 5;
-            }
-        }
-        else if(ResourceNode.resourceType == "stone")
-        {
-            if (ResourceNode.StoneResource > 0)
-            {
-                playerInventory.AddStone(locationType.GetComponent<Resource>().ExtractResource());
-                resourceTimer = resourceTimerMax;
-                hunger -= 5;
-            }
-        }
+        ResourceNode.ExtractResource();
+        resourceTimer = resourceTimerMax; 
     }
     void resourceCountdown()
     {
@@ -153,5 +145,14 @@ public class Unit : MonoBehaviour
     public void setDestination(Vector3 targetPositon)
     {
         agent.SetDestination(targetPositon);
+    }
+
+    public void setAction(string action)
+    {
+        Debug.Log(agent.pathPending);
+        performAction = action;
+
+        if(onUpdateAnimation != null)
+            onUpdateAnimation.Invoke();
     }
 }
