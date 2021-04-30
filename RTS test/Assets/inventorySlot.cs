@@ -7,19 +7,29 @@ public class inventorySlot : MonoBehaviour
 {
     public Image imageSlot;
     public Text textAmount;
-    private Item item;
+    public Item item;
+    public GameObject bread;
+    public Button InventoryButton;
 
-    public void setItem(Item item)
+    private void Awake()
     {
-            this.item = item;
-            textAmount.text = item.amount.ToString();
-            imageSlot.sprite = item.icon;
+        InventoryButton = transform.GetComponent<Button>();
+        InventoryButton.onClick.AddListener(withdrawItem);
     }
-    public bool hasItem()
+
+    public void setItem(Item newItem)
     {
-        if (item == null)
-            return false;
-        else
-            return true;
+        item = newItem;
+        textAmount.text = newItem.amount.ToString();
+        imageSlot.sprite = newItem.icon;
+    }
+
+    public void withdrawItem()
+    {
+        if(item.withdrawable == true)
+        {
+            Instantiate(bread);
+            Inventory.instance.Remove(item.itemName);
+        }
     }
 }

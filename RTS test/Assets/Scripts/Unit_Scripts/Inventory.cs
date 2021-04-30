@@ -31,7 +31,7 @@ public class Inventory : MonoBehaviour
         if (inventory.Find(x => x.itemName == item.itemName) != null)                               //Use item's name to check if its in inventory
             inventory.Find(x => x.itemName == item.itemName).amount++;
         else                                                                                        //If we cant find a item with the same name make a new item.
-            inventory.Add(new Item { amount = 1, itemName = item.itemName, icon = item.icon });
+            inventory.Add(new Item { amount = 1, itemName = item.itemName, icon = item.icon, withdrawable = item.withdrawable });
 
         if(onInvChangedCallback != null)
             onInvChangedCallback.Invoke();

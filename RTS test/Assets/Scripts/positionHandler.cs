@@ -27,6 +27,7 @@ public class positionHandler : MonoBehaviour
                 if (pos.GetComponent<unitInSite>().unitInPos == null)
                 {
                     unit.GetComponent<Unit>().setDestination(pos.transform.position);
+                    unit.GetComponent<Unit>().setAction(action);
                     pos.GetComponent<unitInSite>().unitInPos = unit;
                     return;
                 }
@@ -46,6 +47,7 @@ public class positionHandler : MonoBehaviour
     {
         if (other.GetComponent<Unit>() != null)
         {
+            other.GetComponent<Unit>().setAction("idle");
             foreach (var pos in sitePosition)
             {
                 if (pos.GetComponent<unitInSite>().unitInPos == other.transform.gameObject)

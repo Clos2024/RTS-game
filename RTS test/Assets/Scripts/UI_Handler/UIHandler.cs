@@ -46,6 +46,8 @@ public class UIHandler : MonoBehaviour
 
         for (int i = 0; i < invSlots.Count; i++)
         {
+            if (inventory.inventory.Count == 0)
+                invSlots[i].GetComponent<inventorySlot>().setItem(new Item { });
             if(i < inventory.inventory.Count)
             {
                 invSlots[i].GetComponent<inventorySlot>().setItem(inventory.inventory[i]);
