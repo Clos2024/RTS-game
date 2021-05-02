@@ -77,6 +77,11 @@ public class Unit : MonoBehaviour
                 else if (locationType.GetComponent<FarmSite>() != null) { };
             }
         }
+
+        if(health <=0)
+        {
+            Destroy(gameObject);
+        }
     }
 
     void OnDestroy()
@@ -154,5 +159,10 @@ public class Unit : MonoBehaviour
 
         if(onUpdateAnimation != null)
             onUpdateAnimation.Invoke();
+    }
+
+    public void takeDamage(float dmg)
+    {
+        health -= (dmg - armor);
     }
 }

@@ -12,7 +12,12 @@ public class enemyUnit : MonoBehaviour
     private UnitSelections playerUnits;
     [SerializeField]
     private GameObject target;
+    private float attackTimer,attackTimerMax;
 
+    public float hp;
+    public float armor;
+    public float attackDamage;
+    public int attackSpeed;
     public float enemyDetectionRadius;
     public float attackRange;
     public float speed;
@@ -29,6 +34,8 @@ public class enemyUnit : MonoBehaviour
     {
         state = State.Wandering;
         playerUnits = UnitSelections.Instance;
+        attackTimerMax = attackSpeed;
+        attackTimer = attackTimerMax;
     }
 
     private void Start()
@@ -83,7 +90,7 @@ public class enemyUnit : MonoBehaviour
                 break;
             case State.Attack:
                 {
-                    Attack();
+                    attackCountdown();
 
                     if (target == null)
                     {
@@ -114,7 +121,21 @@ public class enemyUnit : MonoBehaviour
     }
     private void Attack()
     {
-        Destroy(target);
+        Debug.Log("ATTACK");
+        if (target != null)
+            target.GetComponent<Unit>().takeDamage(attackDamage);
+        attackTimer = attackTimerMax;
+    }
+    void attackCountdown()
+    {
+        if (attackTimer > 0)
+        {
+            attackTimer -= 1 * Time.deltaTime;
+        }
+        else
+        {
+            Attack();
+        }
     }
     private Vector3 GetRoamingPostion()
     {

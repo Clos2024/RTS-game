@@ -21,7 +21,7 @@ public class UIHandler : MonoBehaviour
     }
     void Update()
     {
-        if (UnitSelections.Instance.unitsSelected.Count == 1)
+        if (UnitSelections.Instance.unitsSelected.Count == 1 && UnitSelections.Instance.unitsSelected[0] != null)
         {
             string name = UnitSelections.Instance.unitsSelected[0].GetComponent<Unit>().unitName;
             string hunger = UnitSelections.Instance.unitsSelected[0].GetComponent<Unit>().hunger.ToString();
