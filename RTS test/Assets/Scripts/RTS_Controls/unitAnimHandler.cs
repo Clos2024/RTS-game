@@ -18,7 +18,6 @@ public class unitAnimHandler : MonoBehaviour
     void setAnimationBool()
     {
         var action = unitInfo.performAction;
-        Debug.Log(action);
         ResetAnimator();
         if(action != "idle")
             unitAnimator.SetBool(action, true);

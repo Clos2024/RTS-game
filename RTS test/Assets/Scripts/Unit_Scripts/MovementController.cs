@@ -110,7 +110,9 @@ public class MovementController : MonoBehaviour
             if (canSend)
             {
                 unit.GetComponent<Unit>().locationType = go;
-                agent.SetDestination(target + (offset + new Vector3(i, i, i)));
+                unit.GetComponent<Unit>().setAction("walking");
+                //agent.SetDestination(target + (offset + new Vector3(i, i, i)));
+                unit.GetComponent<Unit>().setDestination(target + (offset + new Vector3(i, i, i)));
                 j++;
             }
         }

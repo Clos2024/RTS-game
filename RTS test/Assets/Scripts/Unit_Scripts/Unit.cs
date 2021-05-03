@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class Unit : MonoBehaviour
 {
-    public float hunger,attack,armor,health;
+    public float hunger,attack,armor,health,attackRange,attackSpeed;
 
     public float starvationTimerMax, resourceTimerMax, metabolismMax;
     private float starvationTimer, resourceTimer, metabolismTimer, healthMax, hungerMax;
@@ -17,15 +17,22 @@ public class Unit : MonoBehaviour
     public Slider healthSlider,hungerSlider;
     healthBar hpBar;
     healthBar hungerBar;
-
+    private enemyUnitsHandler enemyUnits;
+    private NavMeshPath path;
     Inventory playerInventory;
 
     public delegate void updateAnimation();
 
+    private GameObject target;
     public updateAnimation onUpdateAnimation;
+    private float attackTimer, attackTimerMax;
 
     private void Awake()
     {
+        path = new NavMeshPath();
+        attackTimerMax = attackSpeed;
+        attackTimer = attackTimerMax;
+        enemyUnits = enemyUnitsHandler.Instance;
         hpBar = healthSlider.GetComponent<healthBar>();
         hungerBar = hungerSlider.GetComponent<healthBar>();
 
@@ -51,6 +58,16 @@ public class Unit : MonoBehaviour
 
     void Update()
     {
+        if (target == null && enemyUnitsHandler.Instance.enemyUnits.Count != 0)
+        {
+            foreach (var unit in enemyUnitsHandler.Instance.enemyUnits)
+            {
+                if (Vector3.Distance(transform.position, unit.transform.position) <= attackRange)
+                {
+                    target = unit.transform.gameObject;
+                }
+            }
+        }
         //UI Slider Updates
         hpBar.SetMaxProgress(healthMax);
         hpBar.SetProgress(health);
@@ -81,6 +98,23 @@ public class Unit : MonoBehaviour
         if(health <=0)
         {
             Destroy(gameObject);
+        }
+
+        if(target != null)
+        {
+            Quaternion rotation = Quaternion.LookRotation(target.transform.position - transform.position);
+            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 3f);
+            attackCountdown();
+        }
+        else
+        {
+            attackTimer = attackTimerMax;
+            agent.updateRotation = true;
+        }
+
+        if(agent.hasPath == false && locationType == null)
+        {
+            setAction("idle");
         }
     }
 
@@ -149,12 +183,13 @@ public class Unit : MonoBehaviour
     }
     public void setDestination(Vector3 targetPositon)
     {
-        agent.SetDestination(targetPositon);
+        //agent.SetDestination(targetPositon);
+        agent.CalculatePath(targetPositon, path);
+        agent.SetPath(path);
     }
 
     public void setAction(string action)
     {
-        Debug.Log(agent.pathPending);
         performAction = action;
 
         if(onUpdateAnimation != null)
@@ -164,5 +199,22 @@ public class Unit : MonoBehaviour
     public void takeDamage(float dmg)
     {
         health -= (dmg - armor);
+    }
+    private void Attack()
+    {
+        if (target != null)
+            target.GetComponent<enemyUnit>().takeDamage(attack);
+        attackTimer = attackTimerMax;
+    }
+    void attackCountdown()
+    {
+        if (attackTimer > 0)
+        {
+            attackTimer -= 1 * Time.deltaTime;
+        }
+        else
+        {
+            Attack();
+        }
     }
 }

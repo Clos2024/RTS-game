@@ -40,6 +40,7 @@ public class enemyUnit : MonoBehaviour
 
     private void Start()
     {
+        enemyUnitsHandler.Instance.enemyUnits.Add(gameObject);
         agent = transform.GetComponent<NavMeshAgent>();
         homePosition = transform.position;
         roamPosition = GetRoamingPostion();
@@ -90,14 +91,22 @@ public class enemyUnit : MonoBehaviour
                 break;
             case State.Attack:
                 {
+                    Quaternion rotation = Quaternion.LookRotation(target.transform.position - transform.position);
+                    transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 3f);
                     attackCountdown();
 
                     if (target == null)
                     {
+                        attackTimer = attackTimerMax;
+                        agent.updateRotation = true;
                         state = State.Wandering;
                         roamPosition = GetRoamingPostion();
                         agent.CalculatePath(roamPosition, path);
                         agent.SetPath(path);
+                    }
+                    else if(Vector3.Distance(transform.position,target.transform.position) > attackRange)
+                    {
+                        state = State.Chase;
                     }
                 }
                 break;
@@ -116,7 +125,7 @@ public class enemyUnit : MonoBehaviour
     }
     private void Chase()
     {
-        agent.CalculatePath(target.transform.position, path);
+        agent.CalculatePath(target.transform.position + new Vector3 (attackRange,0,-attackRange), path);
         agent.SetPath(path);
     }
     private void Attack()
@@ -145,5 +154,10 @@ public class enemyUnit : MonoBehaviour
     private Vector3 GetRandomDir()
     {
         return new Vector3(Random.Range(-1f, 1f),0,Random.Range(-1, 1f)).normalized;
+    }
+
+    public void takeDamage(float dmg)
+    {
+        hp -= (dmg - armor);
     }
 }

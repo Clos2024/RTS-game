@@ -13,6 +13,9 @@ public class Resource : MonoBehaviour
     public int resources;
     public GameObject resourcePrefab;
     public Transform origin;
+    public GameObject smokePrefab;
+    public GameObject condition1, condition2, condition3;
+    public List<Vector3> angles = new List<Vector3>();
 
     void Update()
     {
@@ -22,15 +25,32 @@ public class Resource : MonoBehaviour
             {
                 var resource = Instantiate(resourcePrefab);
                 resource.name = resourceType;
-                resource.transform.position = origin.position;
+                resource.transform.position = origin.position + (new Vector3(Random.Range(-1, 1), Random.Range(-1, 2), Random.Range(-1, 1)));
             }
             resources = 0;
             Destroy(gameObject);
+
+        }
+
+        if (condition1 != null && condition2 != null && condition3 != null)
+        {
+            if (HP < 8)
+            {
+                condition1.SetActive(false);
+                condition2.SetActive(false);
+                condition3.SetActive(true);
+            }
+            else if (HP < 12)
+            {
+                condition1.SetActive(false);
+                condition2.SetActive(true);
+            }
         }
     }
 
     public void ExtractResource()
     {
         HP--;
+        Instantiate(smokePrefab,transform);
     }
 }

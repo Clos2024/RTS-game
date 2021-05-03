@@ -58,4 +58,14 @@ public class positionHandler : MonoBehaviour
             }
         }
     }
+    private void OnDestroy()
+    {
+        foreach(var pos in sitePosition)
+        {
+            if(pos.GetComponent<unitInSite>().unitInPos != null)
+            {
+                pos.GetComponent<unitInSite>().unitInPos.GetComponent<Unit>().setAction("idle");
+            }
+        }
+    }
 }
