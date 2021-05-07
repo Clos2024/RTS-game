@@ -23,9 +23,9 @@ public class UIHandler : MonoBehaviour
     {
         if (UnitSelections.Instance.unitsSelected.Count == 1 && UnitSelections.Instance.unitsSelected[0] != null)
         {
-            string name = UnitSelections.Instance.unitsSelected[0].GetComponent<Unit>().unitName;
-            string hunger = UnitSelections.Instance.unitsSelected[0].GetComponent<Unit>().hunger.ToString();
-            string health = UnitSelections.Instance.unitsSelected[0].GetComponent<Unit>().health.ToString();
+            string name = UnitSelections.Instance.unitsSelected[0].GetComponent<UnitInfo>().unitName;
+            string hunger = UnitSelections.Instance.unitsSelected[0].GetComponent<UnitInfo>().Hp.ToString();
+            string health = UnitSelections.Instance.unitsSelected[0].GetComponent<UnitInfo>().Hp.ToString();
             soldierName.text = string.Format("Lt.{0} | HP : {1} | Hunger : {2}%", name, health, hunger);
         }
         else if (UnitSelections.Instance.unitsSelected.Count > 1)

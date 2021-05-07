@@ -1,52 +1,39 @@
+using System;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
 
 public class Unit : MonoBehaviour
 {
-    public float hunger,attack,armor,health,attackRange,attackSpeed;
-
-    public float starvationTimerMax, resourceTimerMax, metabolismMax;
-    private float starvationTimer, resourceTimer, metabolismTimer, healthMax, hungerMax;
-    public string unitName;
-    public string performAction;
-
-    public GameObject locationType;
-
-    public NavMeshAgent agent;
-    public Slider healthSlider,hungerSlider;
+    UnitInfo unitInfo;
     healthBar hpBar;
     healthBar hungerBar;
-    private enemyUnitsHandler enemyUnits;
-    private NavMeshPath path;
     Inventory playerInventory;
 
+    public float starvationTimer, resourceTimer, metabolismTimer;
+    private enemyUnitsHandler enemyUnits;
+    private NavMeshPath path;
+    private GameObject target;
+
+    public string performAction;
+    public GameObject locationType;
+    public NavMeshAgent agent;
+    public Slider healthSlider,hungerSlider;
+    public updateAnimation onUpdateAnimation;
     public delegate void updateAnimation();
 
-    private GameObject target;
-    public updateAnimation onUpdateAnimation;
-    private float attackTimer, attackTimerMax;
-
+    private GameObject metabolismUtilTimer,starvationUtilTimer,resourceUtilTimer,attackTimer;
     private void Awake()
     {
-        path = new NavMeshPath();
-        attackTimerMax = attackSpeed;
-        attackTimer = attackTimerMax;
-        enemyUnits = enemyUnitsHandler.Instance;
         hpBar = healthSlider.GetComponent<healthBar>();
         hungerBar = hungerSlider.GetComponent<healthBar>();
-
+        unitInfo = transform.GetComponent<UnitInfo>();
+        path = new NavMeshPath();
+        enemyUnits = enemyUnitsHandler.Instance;
         playerInventory = GameObject.Find("Inventory").GetComponent<Inventory>();
-        healthMax = 100;
-        hungerMax = 100;
-        health = healthMax;
-        hunger = hungerMax;
-        attack = 5;
-        armor = 0;
-        starvationTimer = starvationTimerMax;//This is in seconds
-        resourceTimer = resourceTimerMax;//This is in seconds
-        metabolismTimer = metabolismMax;//This is in seconds
         performAction = "idle";
+        unitInfo.Hp = unitInfo.HpMax;
+        unitInfo.hunger = unitInfo.hungerMax;
     }
     // Start is called before the first frame update
     void Start()
@@ -54,6 +41,7 @@ public class Unit : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         //Add to unitList script
         UnitSelections.Instance.unitList.Add(this.gameObject);
+        metabolismUtilTimer = UtilTimer.Create(metabolism, metabolismTimer);
     }
 
     void Update()
@@ -62,27 +50,32 @@ public class Unit : MonoBehaviour
         {
             foreach (var unit in enemyUnitsHandler.Instance.enemyUnits)
             {
-                if (Vector3.Distance(transform.position, unit.transform.position) <= attackRange)
+                if (Vector3.Distance(transform.position, unit.transform.position) <= unitInfo.attackRange)
                 {
                     target = unit.transform.gameObject;
                 }
             }
         }
-        //UI Slider Updates
-        hpBar.SetMaxProgress(healthMax);
-        hpBar.SetProgress(health);
 
-        hungerBar.SetMaxProgress(hungerMax);
-        hungerBar.SetProgress(hunger);
+        //UI Slider Updates
+        hpBar.SetMaxProgress(unitInfo.HpMax);
+        hpBar.SetProgress(unitInfo.Hp);
+
+        hungerBar.SetMaxProgress(unitInfo.hungerMax);
+        hungerBar.SetProgress(unitInfo.hunger);
 
         //Metabolism
-        metabolismCountdown();
+        if(metabolismUtilTimer == null){ metabolismUtilTimer = UtilTimer.Create(metabolism, metabolismTimer); }
 
         //hunger at zero so we begin to starve
-        if(hunger == 0) { starvationCountdown(); }
+        if (unitInfo.hunger == 0) {
+            //Starvation
+            if(starvationUtilTimer == null)
+                starvationUtilTimer = UtilTimer.Create(starvation, starvationTimer);
+        }
 
         //health at zero so we died
-        if(health == 0) { Destroy(this.gameObject); }
+        if (unitInfo.Hp == 0) { Destroy(this.gameObject); }
 
         //Determine what location we are at
         if(locationType != null)
@@ -90,12 +83,16 @@ public class Unit : MonoBehaviour
             if (Vector3.Distance(transform.position, locationType.transform.position) < 4)
             {
                 //if we are at a resource node begin to gatherResouces
-                if (locationType.GetComponent<Resource>() != null) { resourceCountdown(); }
-                else if (locationType.GetComponent<FarmSite>() != null) { };
+                if (locationType.GetComponent<Resource>() != null) 
+                {
+                    //Gather Resource
+                    if (resourceUtilTimer == null)
+                        resourceUtilTimer = UtilTimer.Create(gatherResource, resourceTimer);
+                }
             }
         }
 
-        if(health <=0)
+        if(unitInfo.Hp <=0)
         {
             Destroy(gameObject);
         }
@@ -104,11 +101,12 @@ public class Unit : MonoBehaviour
         {
             Quaternion rotation = Quaternion.LookRotation(target.transform.position - transform.position);
             transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 3f);
-            attackCountdown();
+            //Attack
+            if (attackTimer == null)
+                attackTimer = UtilTimer.Create(Attack, unitInfo.attackSpeed);
         }
         else
         {
-            attackTimer = attackTimerMax;
             agent.updateRotation = true;
         }
 
@@ -127,63 +125,21 @@ public class Unit : MonoBehaviour
     //Make unit take starvation damage and reset starvationTimer
     void starvation()
     {
-        if(health > 0)
-            health--;
-        starvationTimer = starvationTimerMax;
+        if(unitInfo.Hp > 0)
+            unitInfo.Hp--;
     }
-
-    //Starvation rate of health decay
-    void starvationCountdown()
-    {
-        if(starvationTimer > 0)
-        {
-            starvationTimer -= 1 * Time.deltaTime;
-        }
-        else
-        {
-            starvation();
-        }
-    }
-
     void gatherResource()
     {
         var ResourceNode = locationType.GetComponent<Resource>();
         ResourceNode.ExtractResource();
-        resourceTimer = resourceTimerMax; 
-    }
-    void resourceCountdown()
-    {
-        if (resourceTimer > 0)
-        {
-            resourceTimer -= 1 * Time.deltaTime;
-        }
-        else
-        {
-            gatherResource();
-        }
     }
     void metabolism()
     {
-        if (hunger > 0)
-        {
-            hunger--;
-            metabolismTimer = metabolismMax;
-        }
-    }
-    void metabolismCountdown()
-    {
-        if (metabolismTimer > 0)
-        {
-            metabolismTimer -= 1 * Time.deltaTime;
-        }
-        else
-        {
-            metabolism();
-        }
+        if (unitInfo.hunger > 0)
+            unitInfo.hunger--;
     }
     public void setDestination(Vector3 targetPositon)
     {
-        //agent.SetDestination(targetPositon);
         agent.CalculatePath(targetPositon, path);
         agent.SetPath(path);
     }
@@ -191,30 +147,17 @@ public class Unit : MonoBehaviour
     public void setAction(string action)
     {
         performAction = action;
-
         if(onUpdateAnimation != null)
             onUpdateAnimation.Invoke();
     }
 
     public void takeDamage(float dmg)
     {
-        health -= (dmg - armor);
+        unitInfo.Hp -= (dmg - unitInfo.armor);
     }
     private void Attack()
     {
         if (target != null)
-            target.GetComponent<enemyUnit>().takeDamage(attack);
-        attackTimer = attackTimerMax;
-    }
-    void attackCountdown()
-    {
-        if (attackTimer > 0)
-        {
-            attackTimer -= 1 * Time.deltaTime;
-        }
-        else
-        {
-            Attack();
-        }
+            target.GetComponent<enemyUnit>().takeDamage(unitInfo.attackDmg);
     }
 }

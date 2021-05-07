@@ -62,7 +62,7 @@ public class enemyUnit : MonoBehaviour
             }
         }
 
-        Debug.Log(state);
+        //Debug.Log(state);
         switch(state)
         {
             default:
@@ -117,7 +117,6 @@ public class enemyUnit : MonoBehaviour
     {
         if (path.status == NavMeshPathStatus.PathInvalid || path.status == NavMeshPathStatus.PathPartial || Vector3.Distance(transform.position, roamPosition) <= 1f)
         {
-            Debug.Log(" Wander called");
             roamPosition = GetRoamingPostion();
             agent.CalculatePath(roamPosition, path);
             agent.SetPath(path);

@@ -31,7 +31,7 @@ public class placeItem : MonoBehaviour
         {
             if (hit.transform.gameObject.GetComponent<Unit>() != null)
             {
-                hit.transform.gameObject.GetComponent<Unit>().hunger += 25;
+                hit.transform.gameObject.GetComponent<UnitInfo>().hunger += 25;
                 Inventory.instance.consumeItem("bread",1);
             }
             else

@@ -31,14 +31,14 @@ public class shelter : MonoBehaviour
     {
         foreach(var unit in unitCap.unitsInSite)
         {
-            var unitInfo = unit.GetComponent<Unit>();
+            var unitInfo = unit.GetComponent<UnitInfo>();
 
-            if(unitInfo.health < 100)
+            if(unitInfo.Hp < 100)
             {
                 unitInfo.hunger -= hungerCost;
-                unitInfo.health += HealthIncrease;
-                if(unitInfo.health > 100)
-                    unitInfo.health = 100;
+                unitInfo.Hp += HealthIncrease;
+                if(unitInfo.Hp > 100)
+                    unitInfo.Hp = 100;
                 restTimer = restTimerMax;
             }
         }
