@@ -73,6 +73,10 @@ public class Unit : MonoBehaviour
             if(starvationUtilTimer == null)
                 starvationUtilTimer = UtilTimer.Create(starvation, starvationTimer);
         }
+        else
+        {
+            Destroy(starvationUtilTimer);
+        }
 
         //health at zero so we died
         if (unitInfo.Hp == 0) { Destroy(this.gameObject); }
@@ -89,6 +93,10 @@ public class Unit : MonoBehaviour
                     if (resourceUtilTimer == null)
                         resourceUtilTimer = UtilTimer.Create(gatherResource, resourceTimer);
                 }
+            }
+            else
+            {
+                Destroy(resourceUtilTimer);
             }
         }
 
@@ -108,6 +116,7 @@ public class Unit : MonoBehaviour
         else
         {
             agent.updateRotation = true;
+            Destroy(attackTimer);
         }
 
         if(agent.hasPath == false && locationType == null)
@@ -153,6 +162,7 @@ public class Unit : MonoBehaviour
 
     public void takeDamage(float dmg)
     {
+        Debug.Log("took damage");
         unitInfo.Hp -= (dmg - unitInfo.armor);
     }
     private void Attack()

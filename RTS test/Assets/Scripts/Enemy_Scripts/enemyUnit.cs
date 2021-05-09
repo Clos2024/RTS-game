@@ -62,7 +62,7 @@ public class enemyUnit : MonoBehaviour
             }
         }
 
-        //Debug.Log(state);
+        Debug.Log(state);
         switch(state)
         {
             default:
@@ -83,7 +83,7 @@ public class enemyUnit : MonoBehaviour
                         state = State.Wandering;
                     }
 
-                    if(Vector3.Distance(transform.position,target.transform.position) < attackRange)
+                    if(Vector3.Distance(transform.position,target.transform.position) <= attackRange+1f)
                     {
                         state = State.Attack;
                     }
