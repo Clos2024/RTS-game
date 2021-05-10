@@ -131,7 +131,10 @@ public class enemyUnit : MonoBehaviour
     {
         Debug.Log("ATTACK");
         if (target != null)
+        {
             target.GetComponent<Unit>().takeDamage(attackDamage);
+           
+        }
         attackTimer = attackTimerMax;
     }
     void attackCountdown()

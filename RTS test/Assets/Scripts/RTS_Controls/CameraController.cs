@@ -22,11 +22,17 @@ public class CameraController : MonoBehaviour
             zoomSpeed = zoomSpeedReg;
         }
         //Camera Zoom
-        transform.position += new Vector3(Input.mouseScrollDelta.y * Time.deltaTime * zoomSpeed, Input.mouseScrollDelta.y * Time.deltaTime * zoomSpeed * -1, Input.mouseScrollDelta.y * Time.deltaTime * zoomSpeed);
+        if(!Camera.main.orthographic)
+            transform.position += new Vector3(Input.mouseScrollDelta.y * Time.deltaTime * zoomSpeed, Input.mouseScrollDelta.y * Time.deltaTime * zoomSpeed * -1, Input.mouseScrollDelta.y * Time.deltaTime * zoomSpeed);
+        else
+        {
+            Camera.main.orthographicSize += Input.mouseScrollDelta.y * 0.5f;
+            Camera.main.nearClipPlane = -20;
+        }
+            
+
         //WASD camera panning
         transform.position += new Vector3(Input.GetAxis("Vertical") * panSpeed * Time.deltaTime, 0, Input.GetAxis("Vertical") * panSpeed * Time.deltaTime);
         transform.position += new Vector3(Input.GetAxis("Horizontal") * panSpeed * Time.deltaTime, 0, Input.GetAxis("Horizontal") * panSpeed * Time.deltaTime *-1);
-
-
     }
 }

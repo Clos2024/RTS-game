@@ -140,7 +140,8 @@ public class Unit : MonoBehaviour
     void gatherResource()
     {
         var ResourceNode = locationType.GetComponent<Resource>();
-        ResourceNode.ExtractResource();
+        if(ResourceNode != null)
+            ResourceNode.ExtractResource();
     }
     void metabolism()
     {
