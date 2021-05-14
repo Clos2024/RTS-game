@@ -6,18 +6,28 @@ public class enemyUnitsHandler : MonoBehaviour
 {
     public List<GameObject> enemyUnits = new List<GameObject>();
 
-    private static enemyUnitsHandler _instance;
-    public static enemyUnitsHandler Instance { get { return _instance; } }
+    private static enemyUnitsHandler InstanceEnemy;
+
+    public GameObject enemyPrefab;
+
+    public static enemyUnitsHandler Instance { get { return InstanceEnemy; } }
 
     void Awake()
     {
-        if (_instance != null && _instance != this)
+        if (InstanceEnemy != null && InstanceEnemy != this)
         {
             Destroy(this.gameObject);
         }
         else
         {
-            _instance = this;
+            InstanceEnemy = this;
+        }
+    }
+    void Update()
+    {
+        if(enemyUnits.Count < 6)
+        {
+            var newEnemy = Instantiate(enemyPrefab,transform);
         }
     }
 }

@@ -40,6 +40,8 @@ public class positionHandler : MonoBehaviour
         if(other.GetComponent<Unit>() != null)
         {
             AssignPos(other.transform.gameObject);
+            if (transform.tag == "Resource")
+                other.GetComponent<Unit>().location = this.gameObject;
         }
     }
 
@@ -48,6 +50,7 @@ public class positionHandler : MonoBehaviour
         if (other.GetComponent<Unit>() != null)
         {
             other.GetComponent<Unit>().setAction("idle");
+            other.GetComponent<Unit>().location = null;
             foreach (var pos in sitePosition)
             {
                 if (pos.GetComponent<unitInSite>().unitInPos == other.transform.gameObject)
@@ -65,6 +68,7 @@ public class positionHandler : MonoBehaviour
             if(pos.GetComponent<unitInSite>().unitInPos != null)
             {
                 pos.GetComponent<unitInSite>().unitInPos.GetComponent<Unit>().setAction("idle");
+                pos.GetComponent<unitInSite>().unitInPos.GetComponent<Unit>().location = null;
             }
         }
     }

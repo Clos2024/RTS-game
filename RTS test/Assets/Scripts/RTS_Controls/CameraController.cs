@@ -6,7 +6,7 @@ public class CameraController : MonoBehaviour
 {
     private float zoomSpeed, panSpeed;
     public float zoomSpeedReg, panSpeedReg,zoomSpeedSprint,panSpeedSprint;
-    private float zoomInClamp, zoomOutClamp;
+    public int minCap, maxCap;
 
     // Update is called once per frame
     void Update()
@@ -27,9 +27,17 @@ public class CameraController : MonoBehaviour
         else
         {
             Camera.main.orthographicSize += Input.mouseScrollDelta.y * 0.5f;
-            Camera.main.nearClipPlane = -20;
+            Camera.main.nearClipPlane = -200;
         }
-            
+        
+        if(Camera.main.orthographicSize < minCap)
+        {
+            Camera.main.orthographicSize = minCap;
+        }
+        else if(Camera.main.orthographicSize > maxCap)
+        {
+            Camera.main.orthographicSize = maxCap;
+        }
 
         //WASD camera panning
         transform.position += new Vector3(Input.GetAxis("Vertical") * panSpeed * Time.deltaTime, 0, Input.GetAxis("Vertical") * panSpeed * Time.deltaTime);

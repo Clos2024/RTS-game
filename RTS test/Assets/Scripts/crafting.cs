@@ -22,8 +22,13 @@ public class crafting : MonoBehaviour
 
     public void craft()
     {
-        if (woodCost <= Inventory.instance.GetCountOfItem("wood") && stoneCost <= Inventory.instance.GetCountOfItem("stone") && stoneCost <= Inventory.instance.GetCountOfItem("metal"))
+        var woodAval = Inventory.instance.GetCountOfItem("wood");
+        var stoneAval = Inventory.instance.GetCountOfItem("stone");
+        var metalAval = Inventory.instance.GetCountOfItem("metal");
+
+        if (woodAval >= woodCost && stoneAval >= stoneCost && metalAval >= metalCost)
         {
+            Debug.Log("Craft Item");
             craftItem();
         }
     }

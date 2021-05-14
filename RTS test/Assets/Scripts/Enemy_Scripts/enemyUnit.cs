@@ -13,6 +13,7 @@ public class enemyUnit : MonoBehaviour
     [SerializeField]
     private GameObject target;
     private float attackTimer,attackTimerMax;
+    Animator unitAnimator;
 
     public float hp;
     public float armor;
@@ -32,6 +33,7 @@ public class enemyUnit : MonoBehaviour
 
     void Awake()
     {
+        unitAnimator = GetComponent<Animator>();
         state = State.Wandering;
         playerUnits = UnitSelections.Instance;
         attackTimerMax = attackSpeed;
@@ -40,7 +42,7 @@ public class enemyUnit : MonoBehaviour
 
     private void Start()
     {
-        enemyUnitsHandler.Instance.enemyUnits.Add(gameObject);
+        enemyUnitsHandler.Instance.enemyUnits.Add(this.gameObject);
         agent = transform.GetComponent<NavMeshAgent>();
         homePosition = transform.position;
         roamPosition = GetRoamingPostion();
@@ -51,6 +53,11 @@ public class enemyUnit : MonoBehaviour
 
     private void Update()
     {
+        if(hp <= 0)
+        {
+            Destroy(gameObject);
+        }
+
         if (target == null && playerUnits.unitList.Count != 0)
         {
             foreach (var unit in playerUnits.unitList)
@@ -62,12 +69,13 @@ public class enemyUnit : MonoBehaviour
             }
         }
 
-        Debug.Log(state);
+        //Debug.Log(state);
         switch(state)
         {
             default:
             case State.Wandering:
                 {
+                    unitAnimator.SetBool("Walking", true);
                     Wander();
                     if(target != null)
                     {
@@ -104,7 +112,7 @@ public class enemyUnit : MonoBehaviour
                         agent.CalculatePath(roamPosition, path);
                         agent.SetPath(path);
                     }
-                    else if(Vector3.Distance(transform.position,target.transform.position) > attackRange)
+                    else if(Vector3.Distance(transform.position,target.transform.position) > attackRange*2)
                     {
                         state = State.Chase;
                     }
@@ -129,16 +137,16 @@ public class enemyUnit : MonoBehaviour
     }
     private void Attack()
     {
-        Debug.Log("ATTACK");
         if (target != null)
         {
-            target.GetComponent<Unit>().takeDamage(attackDamage);
-           
+            target.GetComponent<UnitInfo>().takeDamage(attackDamage);
+            unitAnimator.SetBool("Attack", true);
         }
         attackTimer = attackTimerMax;
     }
     void attackCountdown()
     {
+        unitAnimator.SetBool("Attack", false);
         if (attackTimer > 0)
         {
             attackTimer -= 1 * Time.deltaTime;
@@ -161,5 +169,9 @@ public class enemyUnit : MonoBehaviour
     public void takeDamage(float dmg)
     {
         hp -= (dmg - armor);
+    }
+    void OnDestroy()
+    {
+        enemyUnitsHandler.Instance.enemyUnits.Remove(this.gameObject);
     }
 }

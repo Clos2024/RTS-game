@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class unitStats : MonoBehaviour
+public class UnitInfo : MonoBehaviour
 {
+    public float hungerMax;
     public float hunger;
-    public float attack;
+    public float attackDmg;
     public float armor;
-    public float health;
+    public float HpMax;
+    public float Hp;
     public float attackSpeed;
     public float attackRange;
     public string unitName;
@@ -18,9 +20,9 @@ public class unitStats : MonoBehaviour
 
     public void starvation()
     {
-        if (health > 0)
+        if (Hp > 0)
         {
-            health--;
+            Hp--;
         }
     }
 
@@ -34,13 +36,13 @@ public class unitStats : MonoBehaviour
 
     public void takeDamage(float dmg)
     {
-        health -= (dmg - armor);
+        Hp -= (dmg - armor);
     }
 
     public void eat(float amount)
     {
         hunger += amount;
-        if(hunger > 100)
+        if (hunger > 100)
         {
             hunger = 100;
         }
@@ -48,7 +50,7 @@ public class unitStats : MonoBehaviour
 
     public void equipWeapon(Item weapon)
     {
-        if(weapon == null)
+        if (weapon == null)
         {
             this.Weapon = weapon;
         }

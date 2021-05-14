@@ -42,7 +42,9 @@ public class MovementController : MonoBehaviour
 
         if (Input.GetMouseButtonDown(1))
         {
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+            var layerMask = 1 << 9;
+            layerMask = ~layerMask;
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
             {
                 //Get Previous click
                 if (prev == null)
@@ -109,9 +111,8 @@ public class MovementController : MonoBehaviour
             
             if (canSend)
             {
-                unit.GetComponent<Unit>().locationType = go;
+                //unit.GetComponent<Unit>().locationType = go;
                 unit.GetComponent<Unit>().setAction("walking");
-                //agent.SetDestination(target + (offset + new Vector3(i, i, i)));
                 unit.GetComponent<Unit>().setDestination(target + (offset + new Vector3(i, i, i)));
                 j++;
             }

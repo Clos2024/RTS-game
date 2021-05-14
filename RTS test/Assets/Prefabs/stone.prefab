@@ -62,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 28eddc7ccd16d1d449633a4d3d40e84d, type: 2}
+  - {fileID: 2100000, guid: c93ebb0d082b74d40b0ca2d4c345b771, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -130,3 +130,8 @@ MonoBehaviour:
     m_Bits: 256
   Name: stone
   itemIcon: {fileID: 21300000, guid: 7d6c53bcb67e5ef4f99c8f64712e9651, type: 3}
+  Item:
+    itemName: 
+    icon: {fileID: 0}
+    amount: 0
+    withdrawable: 0

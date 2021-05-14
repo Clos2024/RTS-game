@@ -62,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: bf110a05986553944b9b1ab14375b572, type: 2}
+  - {fileID: 2100000, guid: c14d189f4129d2449a13e1ba3b7056f9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -133,5 +133,5 @@ MonoBehaviour:
   Item:
     itemName: 
     icon: {fileID: 0}
-    amount: 0
+    amount: 1000
     withdrawable: 0
