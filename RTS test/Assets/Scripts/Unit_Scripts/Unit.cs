@@ -1,4 +1,4 @@
-using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
@@ -12,7 +12,9 @@ public class Unit : MonoBehaviour
     public float starvationTimer, resourceTimer, metabolismTimer;
     private enemyUnitsHandler enemyUnits;
     private NavMeshPath path;
-    private GameObject target;
+    public bool gather;
+    public GameObject target;
+    public List<GameObject> enemyTargetingMe = new List<GameObject>();
 
     public string performAction;
     public GameObject location;
@@ -23,6 +25,8 @@ public class Unit : MonoBehaviour
     public delegate void updateAnimation();
 
     private GameObject metabolismUtilTimer,starvationUtilTimer,resourceUtilTimer,attackTimer;
+
+    public bool debug;
 
     private void Awake()
     {
@@ -46,6 +50,12 @@ public class Unit : MonoBehaviour
 
     void Update()
     {
+        // Debug Code ////////////////////////////////////////////////
+        if(debug)
+        {
+            Debug.Log(location);
+        }
+        //////////////////////////////////////////////////////////////
         //UI Slider Updates
         hpBar.SetMaxProgress(unitInfo.HpMax);
         hpBar.SetProgress(unitInfo.Hp);
@@ -63,17 +73,6 @@ public class Unit : MonoBehaviour
         //Find target if we dont Have one
         if (target == null)
         {
-            if (enemyUnitsHandler.Instance.enemyUnits.Count != 0) //Make sure its possible to find a target
-            {
-                foreach (var unit in enemyUnitsHandler.Instance.enemyUnits)
-                {
-                    if (Vector3.Distance(transform.position, unit.transform.position) <= unitInfo.attackRange)
-                    {
-                        target = unit.transform.gameObject;
-                    }
-                }
-            }
-
             //Metabolism
             if (metabolismUtilTimer == null) { metabolismUtilTimer = UtilTimer.Create(unitInfo.metabolism, metabolismTimer); }
 
@@ -92,32 +91,36 @@ public class Unit : MonoBehaviour
             //health at zero so we died
             if (unitInfo.Hp == 0) { Destroy(this.gameObject); }
 
-            //Determine what location we are at
-            if (location != null)
+            if(gather)
             {
                 Quaternion rotation = Quaternion.LookRotation(location.transform.position - transform.position);
                 transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 3f);
-                //if we are at a resource node begin to gatherResouces
-                if (location.GetComponent<Resource>() != null)
-                {
-                    //Gather Resource
-                    if (resourceUtilTimer == null)
-                        resourceUtilTimer = UtilTimer.Create(gatherResource, resourceTimer);
-                }
+                setAction("gathering");
+                if (resourceUtilTimer == null)
+                    resourceUtilTimer = UtilTimer.Create(gatherResource, resourceTimer);
             }
             else
             {
                 Destroy(resourceUtilTimer);
             }
 
-            if (agent.hasPath == false && location == null)
+            if (agent.velocity.magnitude  <= 1 && gather == false)
             {
                 setAction("idle");
+            }
+            else if (agent.velocity.magnitude > 1)
+            {
+                setAction("walking");
             }
         }
 
         if (target != null)
         {
+            if(Vector3.Distance(transform.position, target.transform.position) > unitInfo.attackRange * 2)
+            {
+                agent.CalculatePath(target.transform.position, path);
+                agent.SetPath(path);
+            }
             Quaternion rotation = Quaternion.LookRotation(target.transform.position - transform.position);
             transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 3f);
             //Attack
@@ -131,51 +134,17 @@ public class Unit : MonoBehaviour
             agent.updateRotation = true;
             Destroy(attackTimer);
         }
-
-        ////Metabolism
-        //if(metabolismUtilTimer == null){ metabolismUtilTimer = UtilTimer.Create(unitInfo.metabolism, metabolismTimer); }
-
-        ////hunger at zero so we begin to starve
-        //if (unitInfo.hunger == 0) {
-        //    //Starvation
-        //    if(starvationUtilTimer == null)
-        //        starvationUtilTimer = UtilTimer.Create(unitInfo.starvation, starvationTimer);
-        //}
-        //else
-        //{
-        //    Destroy(starvationUtilTimer);
-        //}
-
-        ////health at zero so we died
-        //if (unitInfo.Hp == 0) { Destroy(this.gameObject); }
-
-        ////Determine what location we are at
-        //if (location != null)
-        //{
-        //    Quaternion rotation = Quaternion.LookRotation(location.transform.position - transform.position);
-        //    transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 3f);
-        //    //if we are at a resource node begin to gatherResouces
-        //    if (location.GetComponent<Resource>() != null)
-        //    {
-        //        //Gather Resource
-        //        if (resourceUtilTimer == null)
-        //            resourceUtilTimer = UtilTimer.Create(gatherResource, resourceTimer);
-        //    }
-        //}
-        //else
-        //{
-        //    Destroy(resourceUtilTimer);
-        //}
     }
 
     void OnDestroy()
     {
         //Remove to unitList script
+        Destroy(transform.GetComponent<unitAnimHandler>());
         UnitSelections.Instance.unitList.Remove(this.gameObject);
     }
     void gatherResource()
     {
-        if (location != null)
+        if(location.GetComponent<Resource>() != null)
         {
             var ResourceNode = location.GetComponent<Resource>();
             ResourceNode.ExtractResource();
@@ -201,4 +170,13 @@ public class Unit : MonoBehaviour
             target.GetComponent<enemyUnit>().takeDamage(unitInfo.attackDmg);
         }
     }
+
+#if UNITY_EDITOR
+    public void OnDrawGizmosSelected()
+    {
+        Color c = new Color(0, 0, 0.7f, 0.1f);
+        UnityEditor.Handles.color = c;
+        UnityEditor.Handles.DrawSolidArc(transform.position, Vector3.up, Vector3.forward, 360, 5);
+    }
+#endif
 }

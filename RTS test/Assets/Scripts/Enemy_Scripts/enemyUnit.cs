@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class enemyUnit : MonoBehaviour
 {
     private Vector3 homePosition,roamPosition;
+    [SerializeField]
     private NavMeshAgent agent;
     [SerializeField]
     private NavMeshPath path;
@@ -14,8 +16,12 @@ public class enemyUnit : MonoBehaviour
     private GameObject target;
     private float attackTimer,attackTimerMax;
     Animator unitAnimator;
+    healthBar hpBar;
+    public Slider healthSlider;
 
-    public float hp;
+    public GameObject[] listOfTwo = new GameObject[2];
+
+    public float hp,HpMax;
     public float armor;
     public float attackDamage;
     public int attackSpeed;
@@ -23,6 +29,7 @@ public class enemyUnit : MonoBehaviour
     public float attackRange;
     public float speed;
     private State state;
+    public bool debug;
 
     private enum State
     {
@@ -34,42 +41,76 @@ public class enemyUnit : MonoBehaviour
     void Awake()
     {
         unitAnimator = GetComponent<Animator>();
+        agent = transform.GetComponent<NavMeshAgent>();
         state = State.Wandering;
         playerUnits = UnitSelections.Instance;
         attackTimerMax = attackSpeed;
         attackTimer = attackTimerMax;
+        hpBar = healthSlider.GetComponent<healthBar>();
+
+        path = new NavMeshPath();
+        agent.speed = speed;
     }
 
     private void Start()
     {
         enemyUnitsHandler.Instance.enemyUnits.Add(this.gameObject);
-        agent = transform.GetComponent<NavMeshAgent>();
         homePosition = transform.position;
         roamPosition = GetRoamingPostion();
-        path = new NavMeshPath();
-        agent.CalculatePath(new Vector3(100,100,100),path);
-        agent.speed = speed;
     }
 
     private void Update()
     {
-        if(hp <= 0)
+        hpBar.SetMaxProgress(HpMax);
+        hpBar.SetProgress(hp);
+
+        if (hp <= 0)
         {
             Destroy(gameObject);
         }
 
-        if (target == null && playerUnits.unitList.Count != 0)
+        if (target == null)
         {
-            foreach (var unit in playerUnits.unitList)
+            foreach (var unit in UnitSelections.Instance.unitList)
             {
-                if (Vector3.Distance(transform.position, unit.transform.position) < enemyDetectionRadius)
+                if (Vector3.Distance(transform.position, unit.transform.position) <= enemyDetectionRadius)
                 {
-                    target = unit.transform.gameObject;
+                    if (listOfTwo[0] == null)
+                    {
+                        listOfTwo[0] = unit;
+                    }
+                    else
+                    {
+                        if (Vector3.Distance(listOfTwo[0].transform.position, transform.position) > Vector3.Distance(unit.transform.position, transform.position))
+                        {
+                            listOfTwo[1] = listOfTwo[0];
+                            listOfTwo[0] = unit;
+                        }
+                    }
                 }
+            }
+            if (listOfTwo[0] != null)
+            {
+                target = listOfTwo[0];
+                listOfTwo[0].GetComponent<Unit>().enemyTargetingMe.Add(gameObject);
+            }
+        }
+        else
+        {
+            if(target.GetComponent<Unit>().enemyTargetingMe.Count > 1 && listOfTwo[1] != null)
+            {
+                target = listOfTwo[1];
+                listOfTwo[1].GetComponent<Unit>().enemyTargetingMe.Remove(gameObject);
+                listOfTwo[0].GetComponent<Unit>().enemyTargetingMe.Remove(gameObject);
             }
         }
 
-        //Debug.Log(state);
+        if (debug)
+        {
+            Debug.Log(state);
+            Debug.Log(path.status);
+        }
+
         switch(state)
         {
             default:
@@ -77,7 +118,7 @@ public class enemyUnit : MonoBehaviour
                 {
                     unitAnimator.SetBool("Walking", true);
                     Wander();
-                    if(target != null)
+                    if (target != null)
                     {
                         state = State.Chase;
                     }
@@ -86,12 +127,19 @@ public class enemyUnit : MonoBehaviour
             case State.Chase:
                 {
                     Chase();
-                    if(target == null)
+
+                    if (Vector3.Distance(transform.position, target.transform.position) >= enemyDetectionRadius)
+                    {
+                        target = null;
+                        listOfTwo[0] = null;
+                        listOfTwo[1] = null;
+                    }
+
+                    if (target == null)
                     {
                         state = State.Wandering;
                     }
-
-                    if(Vector3.Distance(transform.position,target.transform.position) <= attackRange+1f)
+                    else if(Vector3.Distance(transform.position,target.transform.position) <= attackRange)
                     {
                         state = State.Attack;
                     }
@@ -99,22 +147,26 @@ public class enemyUnit : MonoBehaviour
                 break;
             case State.Attack:
                 {
-                    Quaternion rotation = Quaternion.LookRotation(target.transform.position - transform.position);
-                    transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 3f);
                     attackCountdown();
 
                     if (target == null)
                     {
                         attackTimer = attackTimerMax;
                         agent.updateRotation = true;
+                        agent.isStopped = false;
                         state = State.Wandering;
-                        roamPosition = GetRoamingPostion();
-                        agent.CalculatePath(roamPosition, path);
-                        agent.SetPath(path);
                     }
-                    else if(Vector3.Distance(transform.position,target.transform.position) > attackRange*2)
+                    else
                     {
-                        state = State.Chase;
+                        Quaternion rotation = Quaternion.LookRotation(target.transform.position - transform.position);
+                        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 3f);
+                        agent.isStopped = true;
+
+                        if (Vector3.Distance(transform.position, target.transform.position) > attackRange)
+                        {
+                            state = State.Chase;
+                            agent.isStopped = false;
+                        }
                     }
                 }
                 break;
@@ -123,8 +175,15 @@ public class enemyUnit : MonoBehaviour
 
     private void Wander()
     {
-        if (path.status == NavMeshPathStatus.PathInvalid || path.status == NavMeshPathStatus.PathPartial || Vector3.Distance(transform.position, roamPosition) <= 1f)
+        if(agent.remainingDistance <=1f)
         {
+            roamPosition = GetRoamingPostion();
+            agent.CalculatePath(roamPosition, path);
+            agent.SetPath(path);
+        }
+        else if(path.status == NavMeshPathStatus.PathInvalid || path.status == NavMeshPathStatus.PathPartial)
+        {
+            Debug.Log("Invalid path recalculating");
             roamPosition = GetRoamingPostion();
             agent.CalculatePath(roamPosition, path);
             agent.SetPath(path);
@@ -132,14 +191,14 @@ public class enemyUnit : MonoBehaviour
     }
     private void Chase()
     {
-        agent.CalculatePath(target.transform.position + new Vector3 (attackRange,0,-attackRange), path);
+        agent.CalculatePath(target.transform.position, path);
         agent.SetPath(path);
     }
     private void Attack()
     {
         if (target != null)
         {
-            target.GetComponent<UnitInfo>().takeDamage(attackDamage);
+            target.GetComponent<UnitInfo>().takeDamage(attackDamage, gameObject);
             unitAnimator.SetBool("Attack", true);
         }
         attackTimer = attackTimerMax;
@@ -174,4 +233,15 @@ public class enemyUnit : MonoBehaviour
     {
         enemyUnitsHandler.Instance.enemyUnits.Remove(this.gameObject);
     }
+
+#if UNITY_EDITOR
+
+    public void OnDrawGizmosSelected()
+    {
+        Color c = new Color(0, 0, 0.7f, 0.1f);
+        UnityEditor.Handles.color = c;
+        UnityEditor.Handles.DrawSolidArc(transform.position, Vector3.up, Vector3.forward, 360, enemyDetectionRadius);
+    }
+
+#endif
 }

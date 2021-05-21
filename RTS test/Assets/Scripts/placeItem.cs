@@ -5,6 +5,9 @@ using UnityEngine;
 public class placeItem : MonoBehaviour
 {
     RaycastHit hit;
+    [SerializeField]
+    private Item itemWithdrawn;
+    public LayerMask m_layerMask;
 
     // Start is called before the first frame update
     void Start()
@@ -27,19 +30,44 @@ public class placeItem : MonoBehaviour
             transform.position = hit.point;
         }
 
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButtonDown(0))
         {
             if (hit.transform.gameObject.GetComponent<Unit>() != null)
             {
-                hit.transform.gameObject.GetComponent<UnitInfo>().hunger += 25;
-                Inventory.instance.consumeItem("bread",1);
+                Debug.Log("HitPlayer");
+                if (itemWithdrawn.itemName == "bread")
+                {
+                    hit.transform.gameObject.GetComponent<UnitInfo>().hunger += 25;
+                    Inventory.instance.consumeItem("bread", 1);
+                }
+                else if (itemWithdrawn.itemName.Contains("helmet"))
+                {
+                    Debug.Log("Applying Armor");
+                    hit.transform.gameObject.GetComponent<UnitInfo>().equipArmor(new Item { itemName = itemWithdrawn.itemName, icon = itemWithdrawn.icon, amount = 1, withdrawable = true });
+                }
+                else if (itemWithdrawn.itemName.Contains("weapon"))
+                {
+                    Debug.Log("Applying Weapon");
+                    hit.transform.gameObject.GetComponent<UnitInfo>().equipWeapon(new Item { itemName = itemWithdrawn.itemName, icon = itemWithdrawn.icon, amount = 1, withdrawable = true });
+                }
             }
-            else
+            else if (hit.transform.gameObject.GetComponent<Unit>() == null)
             {
-                Inventory.instance.inventory.Add(new Item { itemName = "bread", icon = null, amount = 1, withdrawable = true });
+                Inventory.instance.Add(itemWithdrawn);
             }
             Destroy(gameObject);
         }
+        else if(Input.GetMouseButtonDown(1))
+        {
+            Destroy(gameObject);
+            Inventory.instance.Add(itemWithdrawn);
+        }
 
+    }
+
+    public void SetItem(Item item)
+    {
+        itemWithdrawn = new Item { itemName = item.itemName, icon = item.icon, amount = 1, withdrawable = true };
+        Debug.Log("item set here");
     }
 }

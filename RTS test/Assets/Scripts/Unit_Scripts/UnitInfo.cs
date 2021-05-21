@@ -14,10 +14,16 @@ public class UnitInfo : MonoBehaviour
     public float attackRange;
     public string unitName;
     [SerializeField]
-    private Item Weapon;
+    public Item Weapon;
     [SerializeField]
-    private Item Armor;
+    public Item Armor;
 
+    public Unit unitScript;
+
+    private void Awake()
+    {
+        unitScript = transform.GetComponent<Unit>();
+    }
     public void starvation()
     {
         if (Hp > 0)
@@ -34,8 +40,13 @@ public class UnitInfo : MonoBehaviour
         }
     }
 
-    public void takeDamage(float dmg)
+    public void takeDamage(float dmg, GameObject go)
     {
+        if(unitScript.target == null)
+        {
+            if(go.GetInstanceID() != transform.gameObject.GetInstanceID())
+                unitScript.target = go;
+        }
         Hp -= (dmg - armor);
     }
 
@@ -50,17 +61,11 @@ public class UnitInfo : MonoBehaviour
 
     public void equipWeapon(Item weapon)
     {
-        if (weapon == null)
-        {
-            this.Weapon = weapon;
-        }
+        Weapon = weapon;
     }
 
     public void equipArmor(Item armor)
     {
-        if (armor == null)
-        {
-            Armor = armor;
-        }
+        Armor = armor;
     }
 }

@@ -17,18 +17,23 @@ public class unitAnimHandler : MonoBehaviour
 
     void setAnimationBool()
     {
-        var action = unitInfo.performAction;
-        ResetAnimator();
-        if(action != "idle")
-            unitAnimator.SetBool(action, true);
+        if (unitAnimator != null)
+        {
+            var action = unitInfo.performAction;
+            ResetAnimator();
+            if (action != "idle")
+                unitAnimator.SetBool(action, true);
+        }
     }
 
     void ResetAnimator()
     {
-        unitAnimator.SetBool("walking", false);
-        unitAnimator.SetBool("gathering", false);
-        unitAnimator.SetBool("farming", false);
-        unitAnimator.SetBool("resting", false);
+        if (unitAnimator != null)
+        {
+            unitAnimator.SetBool("walking", false);
+            unitAnimator.SetBool("gathering", false);
+            unitAnimator.SetBool("farming", false);
+            unitAnimator.SetBool("resting", false);
+        }
     }
-
 }

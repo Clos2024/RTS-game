@@ -30,7 +30,6 @@ public class FogOfWar : MonoBehaviour
             Debug.DrawRay(UnitSelections.Instance.unitList[j].transform.position, Vector3.up * 30f);
             if (Physics.Raycast(r, out hit, Mathf.Infinity, m_fogLayer))
             {
-                Debug.Log("Hit");
                 for (int i = 0; i < m_verticies.Length; i++)
                 {
                     Vector3 v = m_verticies[i];

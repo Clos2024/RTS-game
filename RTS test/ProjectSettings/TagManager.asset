@@ -10,6 +10,11 @@ TagManager:
   - Ground
   - Wheat
   - PickUp
+  - Enemy
+  - Helmet
+  - Torso
+  - Boots
+  - Weapon
   layers:
   - Default
   - TransparentFX

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.EventSystems;
 
 public class MovementController : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class MovementController : MonoBehaviour
     public List<Vector3> offsets;
     public float offsetAmount;
     GameObject objClicked,prev;
+    public LayerMask myLayers;
     // Start is called before the first frame update
     void Awake()
     {
@@ -42,35 +44,47 @@ public class MovementController : MonoBehaviour
 
         if (Input.GetMouseButtonDown(1))
         {
-            var layerMask = 1 << 9;
-            layerMask = ~layerMask;
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
+            if(EventSystem.current.IsPointerOverGameObject() != true)
             {
-                //Get Previous click
-                if (prev == null)
+                if (Physics.Raycast(ray, out hit, Mathf.Infinity, myLayers))
                 {
-                    prev = hit.transform.gameObject;
-                    objClicked = hit.transform.gameObject;
-                }
-                prev = objClicked;
-                objClicked = hit.transform.gameObject;
-
-                if (hit.transform.gameObject.layer == 7) //We have hit the ground
-                {
-                    MoveTo(hit.point,hit.transform.gameObject);
-                }
-                else if (hit.transform.gameObject.layer == 8) //We have hit a clickable resource spot
-                {
-                    if (hit.transform.tag == "Resource")
+                    //Get Previous click
+                    if (prev == null)
                     {
-                        MoveTo(hit.point,hit.transform.gameObject);
-                        UnitSelections.Instance.DeselectAll();
+                        prev = hit.transform.gameObject;
+                        objClicked = hit.transform.gameObject;
                     }
-                    else if (hit.transform.tag == "Building")
+                    prev = objClicked;
+                    objClicked = hit.transform.gameObject;
+
+                    //if (hit.transform.gameObject.layer == 7) //We have hit the ground
+                    //{
+                    //    MoveTo(hit.point, hit.transform.gameObject);
+                    //}
+                    if (hit.transform.gameObject.tag == "Enemy")
+                    {
+                        foreach(var unit in UnitSelections.Instance.unitsSelected)
+                        {
+                            unit.GetComponent<Unit>().target = hit.transform.gameObject;
+                        }
+                    }
+                    else
                     {
                         MoveTo(hit.point, hit.transform.gameObject);
-                        UnitSelections.Instance.DeselectAll();
                     }
+                    //else if (hit.transform.gameObject.layer == 8) //We have hit a clickable resource spot
+                    //{
+                    //    if (hit.transform.tag == "Resource")
+                    //    {
+                    //        MoveTo(hit.point, hit.transform.gameObject);
+                    //        UnitSelections.Instance.DeselectAll();
+                    //    }
+                    //    else if (hit.transform.tag == "Building")
+                    //    {
+                    //        MoveTo(hit.point, hit.transform.gameObject);
+                    //        UnitSelections.Instance.DeselectAll();
+                    //    }
+                    //}
                 }
 
             }
@@ -111,8 +125,9 @@ public class MovementController : MonoBehaviour
             
             if (canSend)
             {
-                //unit.GetComponent<Unit>().locationType = go;
+                unit.GetComponent<Unit>().target = null;
                 unit.GetComponent<Unit>().setAction("walking");
+                unit.GetComponent<Unit>().location = go;
                 unit.GetComponent<Unit>().setDestination(target + (offset + new Vector3(i, i, i)));
                 j++;
             }

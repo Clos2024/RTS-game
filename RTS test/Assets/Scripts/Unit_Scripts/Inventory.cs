@@ -27,9 +27,12 @@ public class Inventory : MonoBehaviour
 
     public void Add(Item item)
     {
-                                                                                                    //If this item is in the inventory increase the amount
+        
         if (inventory.Find(x => x.itemName == item.itemName) != null)                               //Use item's name to check if its in inventory
-            inventory.Find(x => x.itemName == item.itemName).amount++;
+        {                               
+            inventory.Find(x => x.itemName == item.itemName).amount++;                              //If this item is in the inventory increase the amount
+            Debug.Log("Adding Item for first time");
+        }
         else                                                                                        //If we cant find a item with the same name make a new item.
             inventory.Add(new Item { amount = item.amount, itemName = item.itemName, icon = item.icon, withdrawable = item.withdrawable });
 
