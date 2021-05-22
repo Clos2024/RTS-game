@@ -48,6 +48,10 @@ public class MovementController : MonoBehaviour
             {
                 if (Physics.Raycast(ray, out hit, Mathf.Infinity, myLayers))
                 {
+                    if(hit.transform.gameObject.GetComponent<Unit>() != null)
+                    {
+                        return;
+                    }
                     //Get Previous click
                     if (prev == null)
                     {
@@ -95,13 +99,12 @@ public class MovementController : MonoBehaviour
     void MoveTo (Vector3 target, GameObject go)
     {
         List<GameObject> units = UnitSelections.Instance.unitsSelected;
-        int unitSize = units.Count;
+        //int unitSize = units.Count;
 
         int j = 0;
         int i = 0;
 
         bool canSend = true;
-
         foreach (var unit in units)
         {
             //Remove this unit from the location if he is still moving there he will be re-added later.
@@ -112,7 +115,9 @@ public class MovementController : MonoBehaviour
 
             Vector3 offset = Vector3.zero;
             if (j < offsets.Count)
+            {
                 offset = offsets[j];
+            }
             else
             {
                 j = 0;
@@ -121,14 +126,17 @@ public class MovementController : MonoBehaviour
             }
 
             if (go != null)
-                canSend = checkCapacity(go,unit);
+            {
+                canSend = checkCapacity(go, unit);
+            }
             
             if (canSend)
             {
                 unit.GetComponent<Unit>().target = null;
                 unit.GetComponent<Unit>().setAction("walking");
                 unit.GetComponent<Unit>().location = go;
-                unit.GetComponent<Unit>().setDestination(target + (offset + new Vector3(i, i, i)));
+                //unit.GetComponent<Unit>().setDestination(target + (offset + new Vector3(i, i, i)));
+                unit.GetComponent<Unit>().setDestination(target + (offset + new Vector3(i + 0.5f, 0, i + 0.5f)));
                 j++;
             }
         }
@@ -137,7 +145,7 @@ public class MovementController : MonoBehaviour
     bool checkCapacity(GameObject location, GameObject unit)
     {
         unitCapacity cap = location.GetComponent<unitCapacity>();
-        if (cap.unitsInSite.Count < cap.unitMaxCapacity || location.tag == "Ground")
+        if (cap.unitsInSite.Count <= cap.unitMaxCapacity || location.tag == "Ground")
         {
             cap.unitsInSite.Add(unit);
 

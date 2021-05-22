@@ -70,7 +70,8 @@ public class positionHandler : MonoBehaviour
         {
             if(pos.GetComponent<unitInSite>().unitInPos != null)
             {
-                pos.GetComponent<unitInSite>().unitInPos.GetComponent<Unit>().location = null;
+                pos.GetComponent<unitInSite>().unitInPos.GetComponent<Unit>().gather = false;
+                //pos.GetComponent<unitInSite>().unitInPos.GetComponent<Unit>().location = null;
             }
         }
     }

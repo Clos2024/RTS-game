@@ -104,12 +104,15 @@ public class Unit : MonoBehaviour
                 Destroy(resourceUtilTimer);
             }
 
-            if (agent.velocity.magnitude  <= 1 && gather == false)
+            if(agent.remainingDistance < 1f && gather == false)
             {
+                agent.isStopped = true;
                 setAction("idle");
             }
-            else if (agent.velocity.magnitude > 1)
+
+            if (agent.velocity.magnitude > 1)
             {
+
                 setAction("walking");
             }
         }
@@ -152,7 +155,9 @@ public class Unit : MonoBehaviour
     }
     public void setDestination(Vector3 targetPositon)
     {
+        
         agent.CalculatePath(targetPositon, path);
+        agent.isStopped = false;
         agent.SetPath(path);
     }
 
