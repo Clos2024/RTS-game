@@ -30,7 +30,6 @@ public class shipProgress : MonoBehaviour
         {
             progress++;
         }
-        //Debug.Log(progress);
         if(progress == 1)
         {
             currentState = Instantiate(shipProgressState1, shipOrigin.transform);
