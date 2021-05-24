@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class crafting : MonoBehaviour
 {
     public int woodCost, stoneCost, metalCost;
-    public Text craftingCostText;
+    //public Text craftingCostText;
     private Item craftingItem;
     public string itemName;
     public Sprite icon;
@@ -14,10 +14,10 @@ public class crafting : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        craftingCostText.text = "Cost: " + 
-        System.Environment.NewLine + "Wood- " + woodCost.ToString() + 
-        System.Environment.NewLine + "Stone- " + stoneCost.ToString() + 
-        System.Environment.NewLine + "Metal- " + metalCost.ToString();
+        //craftingCostText.text = "Cost: " + 
+        //System.Environment.NewLine + "Wood- " + woodCost.ToString() + 
+        //System.Environment.NewLine + "Stone- " + stoneCost.ToString() + 
+        //System.Environment.NewLine + "Metal- " + metalCost.ToString();
     }
 
     public void craft()

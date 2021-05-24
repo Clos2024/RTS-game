@@ -7,4 +7,6 @@ public class Item
     public Sprite icon;
     public int amount;
     public bool withdrawable;
+    public int Dmg = 0,armor = 0;
+
 }

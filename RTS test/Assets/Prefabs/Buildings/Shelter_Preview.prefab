@@ -131,9 +131,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 5877189904305680684, guid: e6b7f6a89170a5a4690d27b6243c6170, type: 3}
-  woodCost: 5
-  stoneCost: 0
-  metalCost: 0
+  woodCost: 10
+  stoneCost: 10
+  metalCost: 10
 --- !u!1001 &928838116770264312
 PrefabInstance:
   m_ObjectHideFlags: 0

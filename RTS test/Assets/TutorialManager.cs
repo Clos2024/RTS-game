@@ -22,7 +22,10 @@ public class TutorialManager : MonoBehaviour
         cameraController.camEnabled = false;
         dialogueText.text = tutorialDialogue[count];
         cameraObj.transform.position = cameraPositions[0].position;
+    }
 
+    private void Start()
+    {
         if (dialogueBubble.activeInHierarchy == false)
         {
             dialogueBubble.SetActive(true);
@@ -32,6 +35,11 @@ public class TutorialManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(Input.GetKeyDown(KeyCode.Return))
+        {
+            tutorial = false;
+        }
+
         if(tutorial)
         {
             if (stage == 0)
@@ -91,6 +99,7 @@ public class TutorialManager : MonoBehaviour
         else
         {
             cameraController.camEnabled = true;
+            dialogueBubble.SetActive(false);
         }
     }
 }

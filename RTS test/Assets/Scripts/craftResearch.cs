@@ -6,14 +6,14 @@ using UnityEngine.UI;
 public class craftResearch : MonoBehaviour
 {
     public int woodCost, stoneCost, metalCost;
-    public Text craftingCostText;
+    //public Text craftingCostText;
 
     void Start()
     {
-        craftingCostText.text = "Cost: " +
-        System.Environment.NewLine + "Wood- " + woodCost.ToString() +
-        System.Environment.NewLine + "Stone- " + stoneCost.ToString() +
-        System.Environment.NewLine + "Metal- " + metalCost.ToString();
+        //craftingCostText.text = "Cost: " +
+        //System.Environment.NewLine + "Wood- " + woodCost.ToString() +
+        //System.Environment.NewLine + "Stone- " + stoneCost.ToString() +
+        //System.Environment.NewLine + "Metal- " + metalCost.ToString();
     }
 
     public void craft()

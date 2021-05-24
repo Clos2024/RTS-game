@@ -34,13 +34,13 @@ public class Resource : MonoBehaviour
 
         if (condition1 != null && condition2 != null && condition3 != null)
         {
-            if (HP < 8)
+            if (HP < 33)
             {
                 condition1.SetActive(false);
                 condition2.SetActive(false);
                 condition3.SetActive(true);
             }
-            else if (HP < 12)
+            else if (HP < 17)
             {
                 condition1.SetActive(false);
                 condition2.SetActive(true);

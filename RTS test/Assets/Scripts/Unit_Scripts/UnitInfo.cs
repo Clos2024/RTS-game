@@ -62,10 +62,12 @@ public class UnitInfo : MonoBehaviour
     public void equipWeapon(Item weapon)
     {
         Weapon = weapon;
+        attackDmg += weapon.Dmg;
     }
 
     public void equipArmor(Item armor)
     {
         Armor = armor;
+        this.armor += armor.armor;
     }
 }

@@ -68,6 +68,5 @@ public class placeItem : MonoBehaviour
     public void SetItem(Item item)
     {
         itemWithdrawn = new Item { itemName = item.itemName, icon = item.icon, amount = 1, withdrawable = true };
-        Debug.Log("item set here");
     }
 }

@@ -8,7 +8,7 @@ public class inventorySlot : MonoBehaviour
     public Image imageSlot;
     public Text textAmount;
     public Item item;
-    public GameObject bread;
+    public GameObject itemObj;
 
     public void setItem(Item newItem)
     {
@@ -21,8 +21,8 @@ public class inventorySlot : MonoBehaviour
     {
         if(item.withdrawable == true)
         {
-            Instantiate(bread);
-            bread.GetComponent<placeItem>().SetItem(new Item { itemName = item.itemName, icon = item.icon, amount = 1, withdrawable = true });
+            Instantiate(itemObj);
+            itemObj.GetComponent<placeItem>().SetItem(new Item { itemName = item.itemName, icon = item.icon, amount = 1, withdrawable = true });
             Inventory.instance.Remove(item.itemName);
         }
     }

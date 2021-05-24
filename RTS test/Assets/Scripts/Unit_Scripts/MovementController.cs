@@ -144,7 +144,7 @@ public class MovementController : MonoBehaviour
     bool checkCapacity(GameObject location, GameObject unit)
     {
         unitCapacity cap = location.GetComponent<unitCapacity>();
-        if (cap.unitsInSite.Count <= cap.unitMaxCapacity || location.tag == "Ground")
+        if (cap.unitsInSite.Count < cap.unitMaxCapacity || location.tag == "Ground")
         {
             cap.unitsInSite.Add(unit);
 
