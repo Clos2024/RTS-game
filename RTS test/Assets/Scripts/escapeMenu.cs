@@ -6,7 +6,7 @@ public class escapeMenu : MonoBehaviour
 {
     public static bool GameIsPaused = false;
     public GameObject pauseMenu;
-    public GameObject selectionBox;
+    public GameObject selectionBox,unitSelections;
     // Update is called once per frame
     void Update()
     {
@@ -29,7 +29,7 @@ public class escapeMenu : MonoBehaviour
         Time.timeScale = 1f;
         GameIsPaused = false;
         selectionBox.SetActive(true);
-
+        unitSelections.SetActive(true);
     }
     void Pause()
     {
@@ -37,6 +37,7 @@ public class escapeMenu : MonoBehaviour
         Time.timeScale = 0f;
         GameIsPaused = true;
         selectionBox.SetActive(false);
+        unitSelections.SetActive(false);
     }
 
     public void QuitGame()

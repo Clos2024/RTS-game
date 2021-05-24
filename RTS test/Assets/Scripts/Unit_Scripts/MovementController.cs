@@ -44,7 +44,7 @@ public class MovementController : MonoBehaviour
 
         if (Input.GetMouseButtonDown(1))
         {
-            if(EventSystem.current.IsPointerOverGameObject() != true)
+            if (EventSystem.current.IsPointerOverGameObject() != true)
             {
                 if (Physics.Raycast(ray, out hit, Mathf.Infinity, myLayers))
                 {
@@ -90,7 +90,6 @@ public class MovementController : MonoBehaviour
                     //    }
                     //}
                 }
-
             }
         }
 
