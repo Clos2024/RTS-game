@@ -93,8 +93,11 @@ public class Unit : MonoBehaviour
 
             if(gather)
             {
-                Quaternion rotation = Quaternion.LookRotation(location.transform.position - transform.position);
-                transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 3f);
+                if (location.GetComponent<Resource>() != null)
+                {
+                    Quaternion rotation = Quaternion.LookRotation(location.transform.position - transform.position);
+                    transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 3f);
+                }
                 setAction("gathering");
                 if (resourceUtilTimer == null)
                     resourceUtilTimer = UtilTimer.Create(gatherResource, resourceTimer);

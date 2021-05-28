@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3036221336324298132}
   - component: {fileID: 3036221336324298131}
   - component: {fileID: 3036221336324298130}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Cylinder (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,7 +92,7 @@ GameObject:
   - component: {fileID: 3036221336612700620}
   - component: {fileID: 3036221336612700619}
   - component: {fileID: 3036221336612700618}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Cylinder (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -173,7 +173,7 @@ GameObject:
   - component: {fileID: 3036221336622403820}
   - component: {fileID: 3036221336622403819}
   - component: {fileID: 3036221336622403818}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Cylinder (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -254,7 +254,7 @@ GameObject:
   - component: {fileID: 3036221336857763026}
   - component: {fileID: 3036221336857763025}
   - component: {fileID: 3036221336857763024}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Cylinder (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -335,7 +335,7 @@ GameObject:
   - component: {fileID: 3036221337181458262}
   - component: {fileID: 3036221337181458261}
   - component: {fileID: 3036221337181458260}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -416,7 +416,7 @@ GameObject:
   - component: {fileID: 3036221337218116864}
   - component: {fileID: 3036221337218116895}
   - component: {fileID: 3036221337218116894}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Cylinder (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -497,7 +497,7 @@ GameObject:
   - component: {fileID: 3036221337545700265}
   - component: {fileID: 3036221337545700260}
   - component: {fileID: 3036221337545700263}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -577,7 +577,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3036221337948073787}
   - component: {fileID: 8810050142091679587}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Fireplace_Preview
   m_TagString: Building
   m_Icon: {fileID: 0}
@@ -634,7 +634,7 @@ GameObject:
   - component: {fileID: 3036221337957848454}
   - component: {fileID: 3036221337957848452}
   - component: {fileID: 3036221337957848455}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Sphere (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -715,7 +715,7 @@ GameObject:
   - component: {fileID: 3036221338328006438}
   - component: {fileID: 3036221338328006437}
   - component: {fileID: 3036221338328006436}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Cylinder (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

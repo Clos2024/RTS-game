@@ -71,6 +71,8 @@ public class Inventory : MonoBehaviour
     {
         if (inventory.Find(x => x.itemName == name) != null)
             return inventory.Find(x => x.itemName == name).amount;
+        else if (inventory.Find(x => x.itemName == name) == null)
+            return 0;
         else
             return 0;
     }

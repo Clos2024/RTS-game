@@ -32,8 +32,17 @@ public class blueprint : MonoBehaviour
 
         if (Input.GetMouseButton(0))
         {
-            if (woodCost <= Inventory.instance.GetCountOfItem("wood") && stoneCost <= Inventory.instance.GetCountOfItem("stone") && stoneCost <= Inventory.instance.GetCountOfItem("metal"))
+            var wood = Inventory.instance.GetCountOfItem("wood");
+            var stone = Inventory.instance.GetCountOfItem("stone");
+            var metal = Inventory.instance.GetCountOfItem("metal");
+
+            Debug.Log(wood >= woodCost);
+            Debug.Log(stone >= stoneCost);
+            Debug.Log(metal >= metalCost);
+
+            if (wood >= woodCost && stone >= stoneCost && metal >= metalCost)
             {
+                Debug.Log("Buildings Place");
                 placePrefab();
             }
             Destroy(gameObject);
