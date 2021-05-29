@@ -122,17 +122,26 @@ public class Unit : MonoBehaviour
 
         if (target != null)
         {
-            if(Vector3.Distance(transform.position, target.transform.position) > unitInfo.attackRange * 2)
-            {
-                agent.CalculatePath(target.transform.position, path);
-                agent.SetPath(path);
-            }
             Quaternion rotation = Quaternion.LookRotation(target.transform.position - transform.position);
             transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 3f);
-            //Attack
-            if (attackTimer == null)
+
+            if (Vector3.Distance(transform.position, target.transform.position) > unitInfo.attackRange)
             {
-                attackTimer = UtilTimer.Create(Attack, unitInfo.attackSpeed);
+                setDestination(target.transform.position);
+                agent.isStopped = false;
+            }
+            else
+            {
+                agent.isStopped = true;
+            }
+
+            if (Vector3.Distance(transform.position, target.transform.position) <= unitInfo.attackRange)
+            {
+                //Attack
+                if (attackTimer == null)
+                {
+                    attackTimer = UtilTimer.Create(Attack, unitInfo.attackSpeed);
+                }
             }
         }
         else
@@ -179,12 +188,5 @@ public class Unit : MonoBehaviour
         }
     }
 
-#if UNITY_EDITOR
-    public void OnDrawGizmosSelected()
-    {
-        Color c = new Color(0, 0, 0.7f, 0.1f);
-        UnityEditor.Handles.color = c;
-        UnityEditor.Handles.DrawSolidArc(transform.position, Vector3.up, Vector3.forward, 360, 5);
-    }
-#endif
+
 }

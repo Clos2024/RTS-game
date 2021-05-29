@@ -70,4 +70,12 @@ public class UnitInfo : MonoBehaviour
         Armor = armor;
         this.armor += armor.armor;
     }
+#if UNITY_EDITOR
+    public void OnDrawGizmosSelected()
+    {
+        Color c = new Color(0, 0, 0.7f, 0.1f);
+        UnityEditor.Handles.color = c;
+        UnityEditor.Handles.DrawSolidArc(transform.position, Vector3.up, Vector3.forward, 360, attackRange);
+    }
+#endif
 }

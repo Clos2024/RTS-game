@@ -61,34 +61,18 @@ public class MovementController : MonoBehaviour
                     prev = objClicked;
                     objClicked = hit.transform.gameObject;
 
-                    //if (hit.transform.gameObject.layer == 7) //We have hit the ground
-                    //{
-                    //    MoveTo(hit.point, hit.transform.gameObject);
-                    //}
                     if (hit.transform.gameObject.tag == "Enemy")
                     {
                         foreach(var unit in UnitSelections.Instance.unitsSelected)
                         {
                             unit.GetComponent<Unit>().target = hit.transform.gameObject;
+                            Debug.Log("Clicked Enemy");
                         }
                     }
                     else
                     {
                         MoveTo(hit.point, hit.transform.gameObject);
                     }
-                    //else if (hit.transform.gameObject.layer == 8) //We have hit a clickable resource spot
-                    //{
-                    //    if (hit.transform.tag == "Resource")
-                    //    {
-                    //        MoveTo(hit.point, hit.transform.gameObject);
-                    //        UnitSelections.Instance.DeselectAll();
-                    //    }
-                    //    else if (hit.transform.tag == "Building")
-                    //    {
-                    //        MoveTo(hit.point, hit.transform.gameObject);
-                    //        UnitSelections.Instance.DeselectAll();
-                    //    }
-                    //}
                 }
             }
         }
@@ -98,7 +82,6 @@ public class MovementController : MonoBehaviour
     void MoveTo (Vector3 target, GameObject go)
     {
         List<GameObject> units = UnitSelections.Instance.unitsSelected;
-        //int unitSize = units.Count;
 
         int j = 0;
         int i = 0;
@@ -134,7 +117,6 @@ public class MovementController : MonoBehaviour
                 unit.GetComponent<Unit>().target = null;
                 unit.GetComponent<Unit>().setAction("walking");
                 unit.GetComponent<Unit>().location = go;
-                //unit.GetComponent<Unit>().setDestination(target + (offset + new Vector3(i, i, i)));
                 unit.GetComponent<Unit>().setDestination(target + (offset + new Vector3(i + 0.5f, 0, i + 0.5f)));
                 j++;
             }

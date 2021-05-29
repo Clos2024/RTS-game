@@ -31,10 +31,10 @@ public class CameraController : MonoBehaviour
                 panSpeed = panSpeedReg;
                 zoomSpeed = zoomSpeedReg;
             }
-            if(Input.GetKeyDown(KeyCode.C))
-            {
-                rotation -= 45;
-            }
+            //if(Input.GetKeyDown(KeyCode.C))
+            //{
+            //    rotation -= 45;
+            //}
             //Camera Zoom
             if (!Camera.main.orthographic)
                 transform.position += new Vector3(Input.mouseScrollDelta.y * Time.deltaTime * zoomSpeed, Input.mouseScrollDelta.y * Time.deltaTime * zoomSpeed * -1, Input.mouseScrollDelta.y * Time.deltaTime * zoomSpeed);
@@ -52,6 +52,10 @@ public class CameraController : MonoBehaviour
             {
                 Camera.main.orthographicSize = maxCap;
             }
+
+            //Quaternion startRot = cameraHolder.transform.rotation;
+            //Quaternion endRot = Quaternion.Euler(cameraHolder.transform.rotation.eulerAngles.x, rotation, 0);
+            //cameraHolder.transform.rotation = Quaternion.Lerp(startRot, endRot, 10 * Time.deltaTime);
 
             //WASD camera panning
             transform.position += new Vector3(Input.GetAxis("Vertical") * panSpeed * Time.deltaTime, 0, Input.GetAxis("Vertical") * panSpeed * Time.deltaTime);

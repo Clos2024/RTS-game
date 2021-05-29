@@ -556,7 +556,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5
+  m_Radius: 0.6
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
@@ -569,7 +569,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 9076839701376641999}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 0.6
   m_Speed: 0
   m_Acceleration: 8
   avoidancePriority: 50
@@ -594,16 +594,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb736f8af9292d045ac47ce7bb5d3d9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  agent: {fileID: 0}
   target: {fileID: 0}
   healthSlider: {fileID: 5765180591553478726}
+  listOfTwo:
+  - {fileID: 0}
+  - {fileID: 0}
   hp: 100
   HpMax: 100
   armor: 2
   attackDamage: 5
   attackSpeed: 2
   enemyDetectionRadius: 5
-  attackRange: 1
+  attackRange: 2
   speed: 2
+  debug: 0
 --- !u!95 &9076839701376641986
 Animator:
   serializedVersion: 3
