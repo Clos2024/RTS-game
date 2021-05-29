@@ -8,6 +8,13 @@ public class CameraController : MonoBehaviour
     public float zoomSpeedReg, panSpeedReg,zoomSpeedSprint,panSpeedSprint;
     public int minCap, maxCap;
     public bool camEnabled;
+    public GameObject cameraHolder;
+    private float rotation;
+
+    private void Start()
+    {
+        rotation = cameraHolder.transform.rotation.eulerAngles.y;
+    }
 
     // Update is called once per frame
     void Update()
@@ -23,6 +30,10 @@ public class CameraController : MonoBehaviour
             {
                 panSpeed = panSpeedReg;
                 zoomSpeed = zoomSpeedReg;
+            }
+            if(Input.GetKeyDown(KeyCode.C))
+            {
+                rotation -= 45;
             }
             //Camera Zoom
             if (!Camera.main.orthographic)
