@@ -68,6 +68,7 @@ public class Unit : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        
 
 
         //Find target if we dont Have one
@@ -115,8 +116,8 @@ public class Unit : MonoBehaviour
 
             if (agent.velocity.magnitude > 1)
             {
-
                 setAction("walking");
+                Destroy(attackTimer);
             }
         }
 
@@ -130,13 +131,10 @@ public class Unit : MonoBehaviour
                 setDestination(target.transform.position);
                 agent.isStopped = false;
             }
-            else
-            {
-                agent.isStopped = true;
-            }
 
             if (Vector3.Distance(transform.position, target.transform.position) <= unitInfo.attackRange)
             {
+                agent.isStopped = true;
                 //Attack
                 if (attackTimer == null)
                 {
@@ -147,6 +145,7 @@ public class Unit : MonoBehaviour
         else
         {
             agent.updateRotation = true;
+            agent.isStopped = false;
             Destroy(attackTimer);
         }
     }

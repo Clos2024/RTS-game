@@ -139,7 +139,7 @@ public class enemyUnit : MonoBehaviour
                     {
                         state = State.Wandering;
                     }
-                    else if(Vector3.Distance(transform.position,target.transform.position) <= attackRange)
+                    else if(Vector3.Distance(transform.position,target.transform.position) < attackRange)
                     {
                         state = State.Attack;
                     }
@@ -161,8 +161,9 @@ public class enemyUnit : MonoBehaviour
                         Quaternion rotation = Quaternion.LookRotation(target.transform.position - transform.position);
                         transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * 3f);
                         agent.isStopped = true;
+                        unitAnimator.SetBool("Walking", false);
 
-                        if (Vector3.Distance(transform.position, target.transform.position) > attackRange)
+                        if (Vector3.Distance(transform.position, target.transform.position) > attackRange+1)
                         {
                             state = State.Chase;
                             agent.isStopped = false;
