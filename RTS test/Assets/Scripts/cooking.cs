@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class cooking : MonoBehaviour
 {
     public int wheatCost;
-    public Text craftingCostText;
+    //public Text craftingCostText;
     private Item craftingItem;
     public string itemName;
     public Sprite icon;
@@ -12,8 +12,8 @@ public class cooking : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        craftingCostText.text = "Cost: " +
-        System.Environment.NewLine + "Wheat- " + wheatCost.ToString();
+        //craftingCostText.text = "Cost: " +
+        //System.Environment.NewLine + "Wheat- " + wheatCost.ToString();
     }
 
     public void craft()
@@ -26,7 +26,7 @@ public class cooking : MonoBehaviour
 
     void craftItem()
     {
-        craftingItem = new Item { itemName = itemName, amount = 1, icon = icon, withdrawable = true};
+        craftingItem = new Item(itemName, icon, 1, true);
 
         if (Inventory.instance.inventory.Find(x => x.itemName == craftingItem.itemName) == null)
             Inventory.instance.Add(craftingItem);

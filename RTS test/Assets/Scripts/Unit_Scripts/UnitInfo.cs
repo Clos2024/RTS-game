@@ -61,12 +61,14 @@ public class UnitInfo : MonoBehaviour
 
     public void equipWeapon(Item weapon)
     {
+        Debug.Log("Applying Weapon");
         Weapon = weapon;
         attackDmg += weapon.Dmg;
     }
 
     public void equipArmor(Item armor)
     {
+        Debug.Log("Applying Armor");
         Armor = armor;
         this.armor += armor.armor;
     }

@@ -6,6 +6,8 @@ public class fireplace : MonoBehaviour
 {
     unitCapacity unitCap;
     public GameObject buttonCanvas;
+    [SerializeField]
+    private List<GameObject> unitsHere;
     // Start is called before the first frame update
     void Awake()
     {
@@ -14,13 +16,29 @@ public class fireplace : MonoBehaviour
 
     void Update()
     {
-        if (unitCap.unitsInSite.Count == unitCap.unitMaxCapacity)
+        if (unitsHere.Count == unitCap.unitMaxCapacity)
         {
             buttonCanvas.SetActive(true);
         }
         else
         {
             buttonCanvas.SetActive(false);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.GetComponent<Unit>() != null)
+        {
+            unitsHere.Add(other.transform.gameObject);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.GetComponent<Unit>() != null)
+        {
+            unitsHere.Remove(other.transform.gameObject);
         }
     }
 }

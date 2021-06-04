@@ -9,12 +9,29 @@ public class inventorySlot : MonoBehaviour
     public Text textAmount;
     public Item item;
     public GameObject itemObj;
+    private Inventory inventory;
+    public Button slotButton;
+
+
+     void Awake()
+    {
+        inventory = Inventory.instance;
+        slotButton = transform.GetComponent<Button>();
+        slotButton.onClick.AddListener(withdrawItem);
+    }
 
     public void setItem(Item newItem)
     {
-        item = newItem;
-        textAmount.text = newItem.amount.ToString();
-        imageSlot.sprite = newItem.icon;
+        if (newItem != null)
+        {
+            item = newItem;
+            textAmount.text = item.amount.ToString();
+            imageSlot.sprite = item.icon;
+        }
+        else
+        {
+            return;
+        }
     }
 
     public void withdrawItem()
@@ -22,8 +39,11 @@ public class inventorySlot : MonoBehaviour
         if(item.withdrawable == true)
         {
             Instantiate(itemObj);
-            itemObj.GetComponent<placeItem>().SetItem(new Item { itemName = item.itemName, icon = item.icon, amount = 1, withdrawable = true });
-            Inventory.instance.Remove(item.itemName);
+            placeItem placeItemScript = itemObj.GetComponent<placeItem>();
+            Debug.Log("Withdrawing item: " + item.itemName);
+            placeItemScript.SetItem(new Item(item.itemName, item.icon, 1, true));
+            inventory.Remove(item.itemName);
+            item = new Item();
         }
     }
 }

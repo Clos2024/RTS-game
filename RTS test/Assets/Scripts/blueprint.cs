@@ -8,6 +8,7 @@ public class blueprint : MonoBehaviour
     public GameObject prefab;
 
     public int woodCost, stoneCost, metalCost;
+    private bool placeable;
 
     // Start is called before the first frame update
     void Start()
@@ -32,18 +33,21 @@ public class blueprint : MonoBehaviour
 
         if (Input.GetMouseButton(0))
         {
-            var wood = Inventory.instance.GetCountOfItem("wood");
-            var stone = Inventory.instance.GetCountOfItem("stone");
-            var metal = Inventory.instance.GetCountOfItem("metal");
-
-            Debug.Log(wood >= woodCost);
-            Debug.Log(stone >= stoneCost);
-            Debug.Log(metal >= metalCost);
-
-            if (wood >= woodCost && stone >= stoneCost && metal >= metalCost)
+            if (placeable)
             {
-                Debug.Log("Buildings Place");
-                placePrefab();
+                var wood = Inventory.instance.GetCountOfItem("wood");
+                var stone = Inventory.instance.GetCountOfItem("stone");
+                var metal = Inventory.instance.GetCountOfItem("metal");
+
+                Debug.Log(wood >= woodCost);
+                Debug.Log(stone >= stoneCost);
+                Debug.Log(metal >= metalCost);
+
+                if (wood >= woodCost && stone >= stoneCost && metal >= metalCost)
+                {
+                    Debug.Log("Buildings Place");
+                    placePrefab();
+                }
             }
             Destroy(gameObject);
         }

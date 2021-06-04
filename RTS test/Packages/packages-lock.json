@@ -163,6 +163,12 @@
       },
       "url": "https://packages.unity.com"
     },
+    "me.ameye.prefab-painter": {
+      "version": "file:C:/Users/carlo/Downloads/prefab-painter-master/prefab-painter-master",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {}
+    },
     "com.unity.modules.ai": {
       "version": "1.0.0",
       "depth": 0,

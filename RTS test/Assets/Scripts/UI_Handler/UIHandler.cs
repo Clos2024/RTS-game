@@ -52,7 +52,7 @@ public class UIHandler : MonoBehaviour
             }
             else
             {
-                invSlots[i].GetComponent<inventorySlot>().setItem(new Item { });
+                invSlots[i].GetComponent<inventorySlot>().setItem(new Item());
             }
         }
     }

@@ -7,7 +7,6 @@ public class Inventory : MonoBehaviour
     public static Inventory instance;
 
     public delegate void OnInvChange();
-
     public OnInvChange onInvChangedCallback;
 
     public List<Item> inventory = new List<Item>();
@@ -23,18 +22,22 @@ public class Inventory : MonoBehaviour
             return;
         }
         instance = this;
+
+
     }
+
 
     public void Add(Item item)
     {
-        
         if (inventory.Find(x => x.itemName == item.itemName) != null)                               //Use item's name to check if its in inventory
-        {                               
+        {
             inventory.Find(x => x.itemName == item.itemName).amount++;                              //If this item is in the inventory increase the amount
-            Debug.Log("Adding Item for first time");
         }
-        else                                                                                        //If we cant find a item with the same name make a new item.
-            inventory.Add(new Item { amount = item.amount, itemName = item.itemName, icon = item.icon, withdrawable = item.withdrawable });
+        else
+        {                                                                                           //If we cant find a item with the same name make a new item.
+            Debug.Log("Adding Item for first time");
+            inventory.Add(new Item(item.itemName, item.icon, item.amount, item.withdrawable));
+        }
 
         if(onInvChangedCallback != null)
             onInvChangedCallback.Invoke();
@@ -63,7 +66,7 @@ public class Inventory : MonoBehaviour
     {
         for (int i = 0; i < amount; i++)
         {
-            Inventory.instance.Remove(name);
+            Remove(name);
         }
     }
 

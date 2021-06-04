@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class TutorialManager : MonoBehaviour
 {
+    [SerializeField]
     private bool tutorial = true;
     public GameObject cameraObj;
     public GameObject dialogueBubble;

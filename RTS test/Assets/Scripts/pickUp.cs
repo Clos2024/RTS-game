@@ -10,7 +10,7 @@ public class pickUp : MonoBehaviour
 
     void Awake()
     {
-        Item = new Item { amount = 1, itemName = Name, icon = itemIcon};
+        Item = new Item(Name, itemIcon, 1);
     }
     // Update is called once per frame
     void OnMouseDown()

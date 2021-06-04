@@ -35,7 +35,8 @@ public class crafting : MonoBehaviour
 
     void craftItem()
     {
-        craftingItem = new Item { itemName = itemName, amount = 1, icon = icon };
+        craftingItem = new Item(itemName, icon, 1);
+
 
         if (Inventory.instance.inventory.Find(x => x.itemName == craftingItem.itemName) == null)
             Inventory.instance.Add(craftingItem);

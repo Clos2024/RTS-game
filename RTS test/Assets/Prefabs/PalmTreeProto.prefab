@@ -335,6 +335,7 @@ GameObject:
   - component: {fileID: 3618196290369107937}
   - component: {fileID: 8234454257689793696}
   - component: {fileID: -1491666171374657757}
+  - component: {fileID: 3207293303612412193}
   m_Layer: 8
   m_Name: PalmTreeProto
   m_TagString: Resource
@@ -515,6 +516,21 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &3207293303612412193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8234454257689793702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5205e792d5b03646a79a36d6b8c17a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1001 &6457401585620455235
 PrefabInstance:
   m_ObjectHideFlags: 0
