@@ -16,6 +16,9 @@ public class UnitEquipmment : MonoBehaviour
         Inventory.instance.Add(testItem1);
         Inventory.instance.Add(testItem2);
         Inventory.instance.Add(testItem3);
+
+        UnitSelections.Instance.onUnitChangedCallback += showMenu;
+        
     }
     // Update is called once per frame
     void Update()
@@ -32,6 +35,7 @@ public class UnitEquipmment : MonoBehaviour
 
     public void showMenu()
     {
+        Debug.Log("update equipment");
         var unitInfo = UnitSelections.Instance.unitsSelected[0].GetComponent<UnitInfo>();
         equipmentSlots[0].GetComponent<equipmentSlot>().equipmentSlotItem = unitInfo.Armor;
         equipmentSlots[3].GetComponent<equipmentSlot>().equipmentSlotItem = unitInfo.Weapon;

@@ -11,6 +11,9 @@ public class UnitSelections : MonoBehaviour
     private static UnitSelections _instance;
     public static UnitSelections Instance { get { return _instance; } }
 
+    public delegate void OnUnitChange();
+    public OnUnitChange onUnitChangedCallback;
+
     void Awake()
     {
         if(_instance != null && _instance != this)
@@ -29,6 +32,9 @@ public class UnitSelections : MonoBehaviour
         unitsSelected.Add(unitToAdd);
         unitToAdd.transform.GetChild(0).gameObject.SetActive(true);
         unitToAdd.transform.Find("UnitInfoCanvas").gameObject.SetActive(true);
+
+        if (onUnitChangedCallback != null)
+            onUnitChangedCallback.Invoke();
     }
 
     public void ShiftClickSelect(GameObject unitToAdd)
