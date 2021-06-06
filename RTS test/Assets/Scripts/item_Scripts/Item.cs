@@ -18,4 +18,14 @@ public class Item
         this.armor = armor;
         this.withdrawable = withdrawable;
     }
+
+    public Item copyItem()
+    {
+        return new Item(itemName, icon, amount, Dmg, armor, withdrawable);
+    }
+
+    public void setAmount(int amount)
+    {
+        this.amount = amount;
+    }
 }

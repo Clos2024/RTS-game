@@ -24,12 +24,34 @@ public class placeItem : MonoBehaviour
                         var unit = hit.transform.gameObject.GetComponent<UnitInfo>();
                         if (item.itemName.Contains("helmet"))
                         {
-                            unit.equipArmor(item);
+                            if (unit.Armor.itemName == "")
+                            {
+                                unit.equipArmor(item);
+                            }
+                            else
+                            {
+                                Item oldArmor = unit.Armor.copyItem();
+                                oldArmor.setAmount(1);
+                                unit.Armor = null;
+                                unit.equipArmor(item);
+                                Inventory.instance.Add(oldArmor);
+                            }     
                             Destroy(gameObject);
                         }
                         else if (item.itemName.Contains("weapon"))
                         {
-                            unit.equipWeapon(item);
+                            if(unit.Weapon.itemName == "")
+                            {
+                                unit.equipWeapon(item);
+                            }
+                            else
+                            {
+                                Item oldWeapon = unit.Weapon.copyItem();
+                                oldWeapon.setAmount(1);
+                                unit.Armor = null;
+                                unit.equipWeapon(item);
+                                Inventory.instance.Add(oldWeapon);
+                            }  
                             Destroy(gameObject);
                         }
                         else if(item.itemName.Contains("bread"))
@@ -37,13 +59,12 @@ public class placeItem : MonoBehaviour
                             if (unit.hunger >= unit.hungerMax)
                             {
                                 Inventory.instance.Add(item);
-                                Destroy(gameObject);
                             }
                             else
                             {
                                 unit.eat(20);
-                                Destroy(gameObject);
                             }
+                            Destroy(gameObject);
                         }
                     }
                 }
