@@ -107,10 +107,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d538656120a0f7b4cb483d84fdc1f8ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemWithdrawn:
+  item:
     itemName: 
     icon: {fileID: 0}
     amount: 0
-    withdrawable: 1
     Dmg: 0
     armor: 0
+    withdrawable: 0
+  myLayers:
+    serializedVersion: 2
+    m_Bits: 256

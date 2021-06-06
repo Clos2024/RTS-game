@@ -6,18 +6,12 @@ using UnityEngine.UI;
 public class UIHandler : MonoBehaviour
 {
     public Text woodText, stoneText, metalText, soldierName;
-    public GameObject inventoryPanel;
-    private List<GameObject> invSlots = new List<GameObject>();
     Inventory inventory;
 
     void Awake()
     {
         inventory = Inventory.instance;
         inventory.onInvChangedCallback += UpdateInventoryUI;
-        for (int i = 0; i < inventoryPanel.transform.childCount; i++)
-        {
-            invSlots.Add(inventoryPanel.transform.GetChild(i).gameObject);
-        }
     }
     void Update()
     {
@@ -43,17 +37,5 @@ public class UIHandler : MonoBehaviour
         woodText.text = Inventory.instance.GetCountOfItem("wood").ToString();
         stoneText.text = Inventory.instance.GetCountOfItem("stone").ToString();
         metalText.text = Inventory.instance.GetCountOfItem("metal").ToString();
-
-        for (int i = 0; i < invSlots.Count; i++)
-        {
-            if(i<inventory.inventory.Count)
-            {
-                invSlots[i].GetComponent<inventorySlot>().setItem(inventory.inventory[i]);
-            }
-            else
-            {
-                invSlots[i].GetComponent<inventorySlot>().setItem(new Item());
-            }
-        }
     }
 }

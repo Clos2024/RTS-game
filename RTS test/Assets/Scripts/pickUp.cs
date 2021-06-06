@@ -4,15 +4,8 @@ using UnityEngine.UI;
 public class pickUp : MonoBehaviour
 {
     public LayerMask clickable;
-    public string Name;
-    public Sprite itemIcon;
     public Item Item;
 
-    void Awake()
-    {
-        Item = new Item(Name, itemIcon, 1);
-    }
-    // Update is called once per frame
     void OnMouseDown()
     {
         if (Input.GetMouseButtonDown(0))
@@ -25,7 +18,7 @@ public class pickUp : MonoBehaviour
                 if (hit.transform.gameObject.tag == "PickUp")
                 {
                     Inventory.instance.Add(Item);
-                    Destroy(hit.transform.gameObject);
+                    Destroy(gameObject);
                 }
             }
         }

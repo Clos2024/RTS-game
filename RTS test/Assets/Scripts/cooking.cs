@@ -26,7 +26,7 @@ public class cooking : MonoBehaviour
 
     void craftItem()
     {
-        craftingItem = new Item(itemName, icon, 1, true);
+        craftingItem = new Item(itemName, icon, 1);
 
         if (Inventory.instance.inventory.Find(x => x.itemName == craftingItem.itemName) == null)
             Inventory.instance.Add(craftingItem);

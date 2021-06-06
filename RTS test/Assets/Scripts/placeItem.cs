@@ -4,60 +4,55 @@ using UnityEngine;
 
 public class placeItem : MonoBehaviour
 {
-    [SerializeField]
-    private Item itemWithdrawn;
-    Inventory inventory;
-
-    private void Awake()
-    {
-        inventory = Inventory.instance;
-    }
+    public Item item = null;
+    public LayerMask myLayers;
 
     // Update is called once per frame
     void Update()
     {
+        RaycastHit hit;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
         if (Input.GetMouseButtonDown(0))
         {
-            //if (hit.transform.gameObject.GetComponent<Unit>() != null)
-            //{
-            //    Debug.Log("HitPlayer");
-            //    if (itemWithdrawn.itemName == "bread")
-            //    {
-            //        hit.transform.gameObject.GetComponent<UnitInfo>().hunger += 25;
-            //        Inventory.instance.consumeItem("bread", 1);
-            //    }
-            //    else if (itemWithdrawn.itemName.Contains("helmet"))
-            //    {
-            //        hit.transform.gameObject.GetComponent<UnitInfo>().equipArmor(new Item { itemName = itemWithdrawn.itemName, icon = itemWithdrawn.icon, amount = 1, withdrawable = true });
-            //    }
-            //    else if (itemWithdrawn.itemName.Contains("weapon"))
-            //    {
-            //        hit.transform.gameObject.GetComponent<UnitInfo>().equipWeapon(new Item { itemName = itemWithdrawn.itemName, icon = itemWithdrawn.icon, amount = 1, withdrawable = true });
-            //    }
-            //    else
-            //    {
-            //        Debug.Log("hitplayer but didnt know what to do");
-            //    }
-            //}
-            //else
-            //{
-            //    Debug.Log("Inventory miss");
-            //    Inventory.instance.Add(itemWithdrawn);
-            //}
-            //Destroy(gameObject);
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, myLayers))
+            {
+                if(hit.transform.gameObject.tag == "Player")
+                {
+                    if (hit.transform.gameObject.GetComponent<UnitInfo>() != null)
+                    {
+                        var unit = hit.transform.gameObject.GetComponent<UnitInfo>();
+                        if (item.itemName.Contains("helmet"))
+                        {
+                            unit.equipArmor(item);
+                            Destroy(gameObject);
+                        }
+                        else if (item.itemName.Contains("weapon"))
+                        {
+                            unit.equipWeapon(item);
+                            Destroy(gameObject);
+                        }
+                        else if(item.itemName.Contains("bread"))
+                        {
+                            if (unit.hunger >= unit.hungerMax)
+                            {
+                                Inventory.instance.Add(item);
+                                Destroy(gameObject);
+                            }
+                            else
+                            {
+                                unit.eat(20);
+                                Destroy(gameObject);
+                            }
+                        }
+                    }
+                }
+            }
         }
         else if (Input.GetMouseButtonDown(1))
         {
-            inventory.Add(itemWithdrawn);
-            Debug.Log("PlaceItem - Adding Item: " + itemWithdrawn.itemName);
-            Destroy(this.gameObject);
+            Inventory.instance.Add(item);
+            Destroy(gameObject);
         }
-    }
-
-    public void SetItem(Item item)
-    {
-        itemWithdrawn = null;
-        itemWithdrawn = new Item(item.itemName, item.icon, 1, true);
-        Debug.Log("Withdrawn item on mouse: " + itemWithdrawn.itemName);
     }
 }

@@ -21,9 +21,8 @@ public class Inventory : MonoBehaviour
             Debug.LogWarning("More than one instance of Inventory found!");
             return;
         }
+
         instance = this;
-
-
     }
 
 
@@ -36,7 +35,7 @@ public class Inventory : MonoBehaviour
         else
         {                                                                                           //If we cant find a item with the same name make a new item.
             Debug.Log("Adding Item for first time");
-            inventory.Add(new Item(item.itemName, item.icon, item.amount, item.withdrawable));
+            inventory.Add(item);
         }
 
         if(onInvChangedCallback != null)
